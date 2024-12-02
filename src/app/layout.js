@@ -26,7 +26,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Providers>
-          <Header />
+          <div className="sticky">
+            <Header />
+          </div>
           {children}
         </Providers>
       </body>
