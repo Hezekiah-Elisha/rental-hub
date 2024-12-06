@@ -1,4 +1,5 @@
 import React from "react";
+import { withAuth } from "@/utils/withAuth";
 
 export default function DashboardHome() {
   return (

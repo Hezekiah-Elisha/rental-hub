@@ -3,9 +3,18 @@ import React, { useState } from "react";
 import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import Image from "next/image";
+import authServiceInstance from "@/utils/AuthService";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await authServiceInstance.logout();
+    router.push("/");
+  };
+
 
   const togglePopover = () => {
     setIsPopoverOpen(!isPopoverOpen);
@@ -56,7 +65,7 @@ export default function Header() {
               <Link href="/logout">
                 <Link href="/logout"
                   className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                  onClick={closePopover}
+                  onClick={handleLogout}
                 >
                   Logout
                 </Link>

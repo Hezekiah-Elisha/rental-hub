@@ -1,10 +1,13 @@
 import SideNav from '@/components/SideNav'
 import React from 'react'
+import { withAuth } from '@/utils/withAuth'
 
-export default function Dashboard() {
+function Dashboard() {
   return (
     <div>
         hi
     </div>
   )
 }
+
+export  default withAuth(Dashboard)
