@@ -1,25 +1,15 @@
 "use client";
 
-import React from "react";
-import authServiceInstance from "@/utils/AuthService";
-import { useRouter } from "next/navigation";
+import { useState, useActionState } from "react";
+import { signin } from "@/app/actions/auth";
+import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 
 export default function Signin() {
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
-  const [error, setError] = React.useState("");
-  const router = useRouter();
+  const [showPassword, setShowPassword] = useState(false);
+  const [state, action, isPending] = useActionState(signin, undefined);
 
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError("");
-
-    try {
-      await authServiceInstance.login({ email, password });
-      router.push("/dashboard");
-    } catch (error) {
-      setError("Invalid email or password");
-    }
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -29,30 +19,56 @@ export default function Signin() {
           <span className="text-3xl">Hello, We are happy to see you here</span>
         </div>
         <form
-          onSubmit={handleLogin}
+          action={action}
           className="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
         >
-          {error && <p className="text-red-500 mb-4">{error}</p>}
           <input
             type="text"
             placeholder="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            id="email"
+            name="email"
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
-          />
+          {state?.errors?.email && <p>{state.errors.email}</p>}
+          <div className="relative flex flex-row w-full">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              id="password"
+              name="password"
+              // onChange={handleChange}
+              className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
+            />
+            <button
+              type="button"
+              onClick={handleShowPassword}
+              className="absolute right-4 top-1/2 transform -translate-y-1/2"
+            >
+              {showPassword ? (
+                <EyeSlashIcon className="size-6 text-blue-800" />
+              ) : (
+                <EyeIcon className="size-6 text-blue-800" />
+              )}
+            </button>
+          </div>
+          {state?.errors?.password && (
+            <div>
+              <p>Password must:</p>
+              <ul>
+                {state.errors.password.map((error) => (
+                  <li key={error}>- {error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <button
             type="submit"
-            className="w-full clear-start p-5 bg-blue-950 rounded-full text-white uppercase"
+            className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
           >
-            Sign in
+            {isPending ? "Loading..." : "Sign up"}
           </button>
+          
         </form>
       </div>
       <div className="relative hidden md:flex justify-center align-middle items-center w-1/2 bg-blue-100 dark:bg-blue-800">

@@ -1,35 +1,18 @@
 "use client";
 
-import React from "react";
+import { useActionState, useState } from "react";
 import { instance } from "../../api";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import { signup } from "@/app/actions/auth";
 
 export default function Signup() {
-  const [formData, setFormData] = React.useState({});
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [state, action, isPending ] = useActionState(signup, undefined);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
-  }
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    instance
-      .post("/users/auth/register", formData)
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   return (
     <div className="flex flex-row min-h-screen">
@@ -39,34 +22,40 @@ export default function Signup() {
           <span className="text-sm">
             Already have an account?{" "}
             <a href="/signin" className="text-white underline">
-              Sign in
+              Sign Up
             </a>
           </span>
         </div>
         <form
-          onSubmit={handleSubmit}
+          // onSubmit={handleSubmit}
+          action={action}
           className="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
         >
           <input
             type="text"
             placeholder="Full name"
+            id="name"
             name="name"
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
+          {state?.errors?.name && <p>{state.errors.name}</p>}
           <input
             type="email"
-            placeholder="Username"
+            placeholder="Email"
+            id="email"
             name="email"
-            onChange={handleChange}
+            // onChange={handleChange}
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
+          {state?.errors?.email && <p>{state.errors.email}</p>}
           <div className="relative flex flex-row w-full">
             <input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
+              id="password"
               name="password"
-              onChange={handleChange}
+              // onChange={handleChange}
               className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
             />
             <button
@@ -74,14 +63,29 @@ export default function Signup() {
               onClick={handleShowPassword}
               className="absolute right-4 top-1/2 transform -translate-y-1/2"
             >
-              {showPassword ? <EyeSlashIcon className="size-6 text-blue-800"/> : <EyeIcon className="size-6 text-blue-800"/>}
+              {showPassword ? (
+                <EyeSlashIcon className="size-6 text-blue-800" />
+              ) : (
+                <EyeIcon className="size-6 text-blue-800" />
+              )}
             </button>
           </div>
+          {state?.errors?.password && (
+            <div>
+              <p>Password must:</p>
+              <ul>
+                {state.errors.password.map((error) => (
+                  <li key={error}>- {error}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           <button
             type="submit"
             className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
           >
-            Sign in
+            {isPending ? "Loading..." : "Sign up"}
           </button>
         </form>
       </div>
