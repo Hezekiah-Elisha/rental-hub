@@ -1,6 +1,6 @@
-import "server-only";
+// import 'server-only';
 import { SignJWT, jwtVerify } from "jose";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 
 export async function encrypt(payload) {
   const iat = Math.floor(Date.now() / 1000);
@@ -11,20 +11,35 @@ export async function encrypt(payload) {
     .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 }
 
-export async function decrypt(session) {
+const encodedKey = new TextEncoder().encode(process.env.JWT_SECRET);
+
+export async function decrypt(token) {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
-      algorithms: ["HS256"],
+    const { payload } = await jwtVerify(token, encodedKey, {
+      algorithms: ['HS256'],
     });
     return payload;
   } catch (error) {
-    console.log("Failed to verify session");
+    console.error('Failed to verify session', error);
+    return null;
   }
 }
 
-export async function createSession(userId) {
+// export async function decrypt(session) {
+//   try {
+//     const { payload } = await jwtVerify(session, encodedKey, {
+//       algorithms: ["HS256"],
+//     });
+//     return payload;
+//   } catch (error) {
+//     console.log("Failed to verify session");
+//     return null;
+//   }
+// }
+
+export async function createSession(access_token) {
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ userId, expiresAt });
+  const session = await encrypt({ access_token, expiresAt });
   const cookieStore = await cookies();
 
   cookieStore.set("session", session, {

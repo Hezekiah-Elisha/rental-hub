@@ -1,31 +1,43 @@
 import axios from "axios";
 import { setCookie, deleteCookie, getCookie } from "cookies-next";
 import { instance } from "../api";
+import { encrypt, decrypt } from "@/app/lib/sessions";
+// import { cookies } from "next/headers";
 
 class AuthService {
   constructor() {
     this.API_URL = process.env.API_URL;
   }
 
-  async login(credentials) {
-    try {
-      const response = await instance.post("/users/auth/login", credentials);
-      console.log(credentials);
+  async saveCookies(res) {
+    // export async function createSession(userId) {
+    //   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
+    //   const session = await encrypt({ userId, expiresAt });
+    //   const cookieStore = await cookies();
 
+    //   cookieStore.set("session", session, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     expires: expiresAt,
+    //     sameSite: "lax",
+    //     path: "/",
+    //   });
+    // }
+    try {
       // Store tokens in cookies (secure HttpOnly cookies are recommended)
-      setCookie("access_token", response.data.access_token, {
+      setCookie("access_token", res.data.access_token, {
         req: null,
         res: null,
         maxAge: 60 * 60 * 24, // 24 hours
       });
 
-      setCookie("refresh_token", response.data.refresh_token, {
+      setCookie("refresh_token", res.data.refresh_token, {
         req: null,
         res: null,
         maxAge: 60 * 60 * 24 * 7, // 7 days
       });
 
-      return response.data;
+      return res.data;
     } catch (error) {
       console.error("Login failed", error);
       throw error;
@@ -39,7 +51,8 @@ class AuthService {
   }
 
   getAccessToken() {
-    return getCookie("access_token");
+    const access_token = getCookie("access_token");
+    return access_token;
   }
 
   getRefreshToken() {

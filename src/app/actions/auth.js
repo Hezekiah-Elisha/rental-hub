@@ -1,7 +1,7 @@
 import { SignupFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { createSession } from "../lib/sessions";
+import authServiceInstance from "@/utils/AuthService";
 
 export async function signup(state, formData) {
   //validate form fields
@@ -25,6 +25,14 @@ export async function signup(state, formData) {
     password: formData.get("password"),
   });
 
+  if (response.status !== 201) {
+    return {
+      errors: {
+        email: "Email already exists",
+      },
+    };
+  }
+
   redirect("/signin");
 }
 
@@ -33,8 +41,32 @@ export async function signin(state, formData) {
     email: formData.get("email"),
     password: formData.get("password"),
   });
+  if (response.status !== 200) {
+    return {
+      errors: {
+        email: "Invalid email or password",
+      },
+    };
+  }
+  const info = authServiceInstance.saveCookies(response);
+  console.log("data"+info);
 
-  createSession(response.data.user.id);
-
+  // createSession(response.data.user.id);
   redirect("/dashboard");
+}
+
+
+export async function signout() {
+  const response = await instance.post("/users/auth/logout");
+  authServiceInstance.logout();
+  redirect("/signin");
+}
+
+export async function getUser() {
+  const response = await instance.get("/users/auth/user");
+  return response.data;
+}
+
+export async function getAccessToken() {
+  return authServiceInstance.getAccessToken();
 }

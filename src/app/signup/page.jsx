@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
 import { useActionState, useState } from "react";
-import { instance } from "../../api";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import { signup } from "@/app/actions/auth";
 

@@ -1,7 +1,8 @@
-import React from "react";
-import { withAuth } from "@/utils/withAuth";
+import authServiceInstance from "@/utils/AuthService";
+
 
 export default function DashboardHome() {
+  console.log(authServiceInstance.getAccessToken());
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between align-middle">
