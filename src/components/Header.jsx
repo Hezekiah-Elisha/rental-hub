@@ -1,76 +1,71 @@
 "use client";
-import React, { useState } from "react";
+import { useState } from "react";
 import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import Image from "next/image";
 import authServiceInstance from "@/utils/AuthService";
 import { useRouter } from "next/navigation";
+import { isLoggedIn } from "@/app/actions/auth";
+import { Popover } from "react-tiny-popover";
 
 export default function Header() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const router = useRouter();
+  const [isAuthenticated, setIsAuthenticated] = useState(isLoggedIn());
+
+  const handleMouseEnter = () => setIsPopoverOpen(true);
+  const handleMouseLeave = () => setIsPopoverOpen(false);
 
   const handleLogout = async () => {
-    await authServiceInstance.logout();
-    router.push("/");
-  };
-
-
-  const togglePopover = () => {
-    setIsPopoverOpen(!isPopoverOpen);
-  };
-
-  const closePopover = () => {
-    setIsPopoverOpen(false);
+    try {
+      await authServiceInstance.logout();
+      router.push("/signin");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   };
 
   return (
-    <div className="flex flex-row justify-between align-middle items-center p-5 bg-blue-100 bg-opacity-50 dark:bg-blue-900 dark:bg-opacity-50 backdrop-blur-3xl">
+    <div className="flex flex-row justify-between align-middle items-center p-5 dark:bg-opacity-50 backdrop-blur-3xl">
       <Link href={"/"}>
         <h1 className="text-3xl">Rental Hub</h1>
       </Link>
       <div className="flex flex-row align-middle justify-center items-center gap-4">
         <DarkModeSwitch />
-        <Link href="/signin">Sign In</Link>
-        <Link href="/signup">Sign Up</Link>
-        <Link href="/dashboard">Dashboard</Link>
-        <div onClick={togglePopover}>
-          <Image
-            src="/im.jpg"
-            alt="logo"
-            width={50}
-            height={50}
-            className="rounded-full"
-          />
-        </div>
-        {isPopoverOpen && (
-          <div className="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 p-4 rounded-md shadow-lg z-10">
-            <div className="flex flex-col">
-              <Link href="/profile">
-                <Link href="/profile"
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                  onClick={closePopover}
-                >
-                  Profile
-                </Link>
-              </Link>
-              <Link href="/settings">
-                <Link href="/settings"
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                  onClick={closePopover}
-                >
-                  Settings
-                </Link>
-              </Link>
-              <Link href="/logout">
-                <Link href="/logout"
-                  className="p-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded-md"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </Link>
-              </Link>
+        {isAuthenticated ? (
+          <div className="flex flex-row gap-4 justify-center align-middle items-center">
+            <button onClick={handleLogout} className="text-red-500">
+              Logout
+            </button>
+            <Link href="/dashboard">Dashboard</Link>
+            <div>
+              <Popover
+                isOpen={isPopoverOpen}
+                positions={["bottom"]}
+                content={
+                  <ul className="flex flex-col gap-4 bg-zinc-200 rounded-lg p-4">
+                    <li className="p-4">Profile</li>
+                    <li className="p-4">Settings</li>
+                    <li className="p-4">Logout</li>
+                  </ul>
+                }
+              >
+                <Image
+                  src="/im.jpg"
+                  alt="logo"
+                  width={50}
+                  height={50}
+                  className="rounded-full"
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
+                />
+              </Popover>
             </div>
+          </div>
+        ) : (
+          <div>
+            <Link href="/signin">Sign In</Link>
+            <Link href="/signup">Sign Up</Link>
           </div>
         )}
       </div>

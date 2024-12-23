@@ -55,6 +55,10 @@ export async function signin(state, formData) {
   redirect("/dashboard");
 }
 
+export function isLoggedIn(){
+  return authServiceInstance.getAccessToken() !== null;
+}
+
 
 export async function signout() {
   const response = await instance.post("/users/auth/logout");

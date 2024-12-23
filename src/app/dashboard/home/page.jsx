@@ -1,8 +1,9 @@
-import authServiceInstance from "@/utils/AuthService";
-
+"use client"
+import { isLoggedIn } from "@/app/actions/auth";
+import { redirect } from "next/navigation";
 
 export default function DashboardHome() {
-  console.log(authServiceInstance.getAccessToken());
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between align-middle">
