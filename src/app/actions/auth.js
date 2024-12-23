@@ -49,16 +49,15 @@ export async function signin(state, formData) {
     };
   }
   const info = authServiceInstance.saveCookies(response);
-  console.log("data"+info);
+  console.log("data" + info);
 
   // createSession(response.data.user.id);
   redirect("/dashboard");
 }
 
-export function isLoggedIn(){
+export function isLoggedIn() {
   return authServiceInstance.getAccessToken() !== null;
 }
-
 
 export async function signout() {
   const response = await instance.post("/users/auth/logout");

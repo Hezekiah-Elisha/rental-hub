@@ -1,4 +1,4 @@
-import { ChartBarIcon } from "@heroicons/react/24/solid";
+import { BuildingOfficeIcon, ChartBarIcon, TagIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import React from "react";
 import SideNavItem from "./SideNavItem";
@@ -14,12 +14,16 @@ export default function SideNav() {
             popoverName="Dashboard Home"
             icon={<ChartBarIcon className="w-6 h-6" />}
           />
-          {/* <Link
-            href="/dashboard/profile"
-            className="flex flex-row justify-start align-middle items-center gap-4 hover:bg-slate-500 rounded-full px-7 py-4"
-          >
-            <ChartBarIcon className="w-6 h-6" />
-          </Link> */}
+          <SideNavItem
+            destination="/dashboard/properties"
+            popoverName="Post Property"
+            icon={<BuildingOfficeIcon className="w-6 h-6" />}
+          />
+          <SideNavItem
+            destination="/dashboard/categories"
+            popoverName="Categories"
+            icon={<TagIcon className="w-6 h-6" />}
+          />
           <SideNavItem
             destination="/dashboard/profile"
             popoverName="Profile"

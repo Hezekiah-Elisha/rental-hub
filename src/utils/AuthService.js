@@ -52,6 +52,7 @@ class AuthService {
 
   getAccessToken() {
     const access_token = getCookie("access_token");
+    console.log("access_token " + access_token);
     return access_token;
   }
 
