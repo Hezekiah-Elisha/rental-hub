@@ -1,7 +1,8 @@
-import { SignupFormSchema } from "@/app/lib/definitions";
+import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
 import authServiceInstance from "@/utils/AuthService";
+import { creatingSession } from "../lib/creatingSession";
 
 export async function signup(state, formData) {
   //validate form fields
@@ -19,10 +20,11 @@ export async function signup(state, formData) {
   }
 
   // call the signup API
+  const { name, email, password } = validatedFields.data;
   const response = await instance.post("/users/auth/register", {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    password: formData.get("password"),
+    name: name,
+    email: email,
+    password: password,
   });
 
   if (response.status !== 201) {
@@ -37,10 +39,25 @@ export async function signup(state, formData) {
 }
 
 export async function signin(state, formData) {
-  const response = await instance.post("/users/auth/login", {
+  //validate form fields
+  const validatedFields = SigninFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  const { email, password } = validatedFields.data;
+
+  const response = await instance.post("/users/auth/login", {
+    email: email,
+    password: password,
+  });
+
   if (response.status !== 200) {
     return {
       errors: {
@@ -48,15 +65,55 @@ export async function signin(state, formData) {
       },
     };
   }
-  const info = authServiceInstance.saveCookies(response);
-  console.log("data" + info);
 
-  // createSession(response.data.user.id);
-  redirect("/dashboard");
+  if (response.statusText === "Unauthorized") {
+    return {
+      errors: {
+        email: "Invalid email or password",
+      },
+    };
+  }
+
+  if (response.statusText === "Internal Server Error") {
+    return {
+      errors: {
+        email: "Internal Server Error",
+      },
+    };
+  }
+
+  if (response.statusText === "Bad Request") {
+    return {
+      errors: {
+        email: "Bad Request",
+      },
+    };
+  }
+
+  if (!response.data) {
+    return {
+      errors: {
+        email: "Invalid email or password",
+      },
+    };
+  }
+
+  creatingSession(response.data);
+
+  // const info = await authServiceInstance.saveCookies(response);
+  // console.log("data" + info);
+
+  // // createSession(response.data.user.id);
+  // redirect("/dashboard");
 }
 
 export function isLoggedIn() {
-  return authServiceInstance.getAccessToken() !== null;
+  const loggedIn = authServiceInstance.getAccessToken();
+  console.log("logged in" + loggedIn);
+  if (loggedIn !== undefined) {
+    return true;
+  }
+  return false;
 }
 
 export async function signout() {

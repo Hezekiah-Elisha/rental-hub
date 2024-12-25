@@ -1,6 +1,5 @@
 "use client";
 import Headline from "@/components/Headline";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { instance } from "@/api";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";

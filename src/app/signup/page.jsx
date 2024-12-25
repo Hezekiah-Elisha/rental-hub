@@ -82,6 +82,7 @@ export default function Signup() {
 
           <button
             type="submit"
+            disabled={isPending}
             className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
           >
             {isPending ? "Loading..." : "Sign up"}
