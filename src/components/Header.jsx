@@ -9,6 +9,7 @@ import { Popover } from "react-tiny-popover";
 export default function Header() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const router = useRouter();
+  const isAuthenticated = true;
 
   const handleMouseEnter = () => setIsPopoverOpen(true);
   const handleMouseLeave = () => setIsPopoverOpen(false);
@@ -45,17 +46,13 @@ export default function Header() {
                   <ul className="flex flex-col gap-4 bg-zinc-200 rounded-lg p-4">
                     <li className="p-4">Profile</li>
                     <li className="p-4">Settings</li>
-                    <li className="p-4" onClick={handleLogout}>Logout</li>
+                    <li className="p-4" onClick={handleLogout}>
+                      Logout
+                    </li>
                   </ul>
                 }
               >
-                <Image
-                  src="/path/to/profile-pic.jpg"
-                  alt="Profile"
-                  width={40}
-                  height={40}
-                  className="rounded-full cursor-pointer"
-                />
+                <p className="cursor-pointer">Account</p>
               </Popover>
             </div>
           </div>

@@ -1,8 +1,7 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import authServiceInstance from "@/utils/AuthService";
-import { createSession } from "@/app/lib/session";
+// import { createSession } from "@/app/lib/session";
 
 export async function signup(state, formData) {
   //validate form fields
@@ -98,7 +97,7 @@ export async function signin(state, formData) {
     };
   }
 
-  await createSession(response.data);
+  // await createSession(response.data);
 
   // const info = await authServiceInstance.saveCookies(response);
   // console.log("data" + info);
@@ -107,26 +106,10 @@ export async function signin(state, formData) {
   redirect("/dashboard");
 }
 
-export function isLoggedIn() {
-  const loggedIn = authServiceInstance.getAccessToken();
-  console.log("logged in" + loggedIn);
-  if (loggedIn !== undefined) {
-    return true;
-  }
-  return false;
-}
-
-export async function signout() {
-  const response = await instance.post("/users/auth/logout");
-  authServiceInstance.logout();
-  redirect("/signin");
-}
-
 export async function getUser() {
   const response = await instance.get("/users/auth/user");
   return response.data;
 }
 
 export async function getAccessToken() {
-  return authServiceInstance.getAccessToken();
 }

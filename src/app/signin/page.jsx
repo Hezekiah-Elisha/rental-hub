@@ -1,3 +1,4 @@
+"use client";
 import { useState, useActionState } from "react";
 import { signin } from "@/app/actions/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
@@ -66,7 +67,6 @@ export default function Signin() {
           >
             {isPending ? "Loading..." : "Sign up"}
           </button>
-          
         </form>
       </div>
       <div className="relative hidden md:flex justify-center align-middle items-center w-1/2 bg-blue-100 dark:bg-blue-800">
