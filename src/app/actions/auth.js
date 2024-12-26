@@ -2,7 +2,7 @@ import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
 import authServiceInstance from "@/utils/AuthService";
-import { creatingSession } from "../lib/creatingSession";
+import { createSession } from "@/app/lib/session";
 
 export async function signup(state, formData) {
   //validate form fields
@@ -98,13 +98,13 @@ export async function signin(state, formData) {
     };
   }
 
-  creatingSession(response.data);
+  await createSession(response.data);
 
   // const info = await authServiceInstance.saveCookies(response);
   // console.log("data" + info);
 
   // // createSession(response.data.user.id);
-  // redirect("/dashboard");
+  redirect("/dashboard");
 }
 
 export function isLoggedIn() {

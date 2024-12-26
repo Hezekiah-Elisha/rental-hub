@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useActionState } from "react";
 import { signin } from "@/app/actions/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
