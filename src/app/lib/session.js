@@ -1,3 +1,4 @@
+import "server-only";
 import { cookies } from "next/headers";
 import { SignJWT, jwtVerify } from "jose";
 
@@ -36,4 +37,9 @@ export async function createSession(payload) {
     secure: true,
     path: "/",
   });
+}
+
+export async function deleteSession() {
+  const cookieStore = await cookies();
+  cookieStore.delete("session");
 }

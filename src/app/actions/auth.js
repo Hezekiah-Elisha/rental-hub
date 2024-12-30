@@ -1,6 +1,8 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
+
+// import { deleteSession } from '@/app/lib/session'
 // import { createSession } from "@/app/lib/session";
 
 export async function signup(state, formData) {
@@ -104,6 +106,12 @@ export async function signin(state, formData) {
 
   // // createSession(response.data.user.id);
   redirect("/dashboard");
+}
+
+ 
+export async function logout() {
+  // deleteSession()
+  redirect('/login')
 }
 
 export async function getUser() {
