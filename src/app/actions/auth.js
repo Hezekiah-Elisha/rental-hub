@@ -1,6 +1,8 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
+import { createCookie, getSession } from "../lib/session";
+import { deleteCookie } from "cookies-next";
 
 // import { deleteSession } from '@/app/lib/session'
 // import { createSession } from "@/app/lib/session";
@@ -53,65 +55,61 @@ export async function signin(state, formData) {
     };
   }
   const { email, password } = validatedFields.data;
+  console.log(email, password);
 
   const response = await instance.post("/users/auth/login", {
     email: email,
     password: password,
   });
 
-  if (response.status !== 200) {
-    return {
-      errors: {
-        email: "Invalid email or password",
-      },
-    };
-  }
+  // if (response.status !== 200) {
+  //   return {
+  //     errors: {
+  //       email: "Invalid email or password",
+  //     },
+  //   };
+  // }
 
-  if (response.statusText === "Unauthorized") {
-    return {
-      errors: {
-        email: "Invalid email or password",
-      },
-    };
-  }
+  // if (response.statusText === "Unauthorized") {
+  //   return {
+  //     errors: {
+  //       email: "Invalid email or password",
+  //     },
+  //   };
+  // }
 
-  if (response.statusText === "Internal Server Error") {
-    return {
-      errors: {
-        email: "Internal Server Error",
-      },
-    };
-  }
+  // if (response.statusText === "Internal Server Error") {
+  //   return {
+  //     errors: {
+  //       email: "Internal Server Error",
+  //     },
+  //   };
+  // }
 
-  if (response.statusText === "Bad Request") {
-    return {
-      errors: {
-        email: "Bad Request",
-      },
-    };
-  }
+  // if (response.statusText === "Bad Request") {
+  //   return {
+  //     errors: {
+  //       email: "Bad Request",
+  //     },
+  //   };
+  // }
 
-  if (!response.data) {
-    return {
-      errors: {
-        email: "Invalid email or password",
-      },
-    };
-  }
+  // if (!response.data) {
+  //   return {
+  //     errors: {
+  //       email: "Invalid email or password",
+  //     },
+  //   };
+  // }
 
-  // await createSession(response.data);
-
-  // const info = await authServiceInstance.saveCookies(response);
-  // console.log("data" + info);
-
-  // // createSession(response.data.user.id);
+  await createCookie(response.data);
   redirect("/dashboard");
+
 }
 
- 
 export async function logout() {
-  // deleteSession()
-  redirect('/login')
+  await deleteCookie("session");
+  return redirect("/signin");
 }
 
 export async function getUser() {
@@ -119,5 +117,4 @@ export async function getUser() {
   return response.data;
 }
 
-export async function getAccessToken() {
-}
+export async function getAccessToken() {}

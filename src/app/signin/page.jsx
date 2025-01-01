@@ -65,7 +65,7 @@ export default function Signin() {
             type="submit"
             className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
           >
-            {isPending ? "Loading..." : "Sign up"}
+            {isPending ? "Loading..." : "Sign in"}
           </button>
         </form>
       </div>

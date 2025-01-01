@@ -1,15 +1,32 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Popover } from "react-tiny-popover";
+import  { logout } from "@/app/actions/auth";
+import { getSession, hasSession } from "@/app/lib/session";
 
 export default function Header() {
   const [isPopoverOpen, setIsPopoverOpen] = useState(false);
   const router = useRouter();
-  const isAuthenticated = true;
+  const [isAuthenticated, setIsAuthenticated] = useState(getSession() || hasSession());
+
+  useEffect(() => {
+    getSession().then((session) => {
+      if (session) {
+        setIsAuthenticated(true);
+        console.log(session);
+      }
+    });
+    hasSession().then((session) => {
+      if (session) {
+        setIsAuthenticated(true);
+        console.log(session);
+      }
+    });
+  }, []);
 
   const handleMouseEnter = () => setIsPopoverOpen(true);
   const handleMouseLeave = () => setIsPopoverOpen(false);
@@ -18,7 +35,13 @@ export default function Header() {
     // Perform logout logic here
     // For example, remove tokens from cookies/localStorage
     // Then redirect to the login page
-    router.push("/signin");
+
+    logout().then(() => {
+      setIsAuthenticated(false);
+      router.push("/signin");
+    }).catch((error) => {
+      console.error("Logout error:", error);
+    });
   };
 
   return (
