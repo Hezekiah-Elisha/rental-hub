@@ -1,4 +1,5 @@
 "use client";
+import { instance } from "@/api";
 import { createProperty } from "@/app/actions/property";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
@@ -6,6 +7,26 @@ import { useActionState, useEffect, useState } from "react";
 export default function PostProperty() {
   const [state, action, isPending] = useActionState(createProperty, undefined);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleInputBlur = () => {
+    const newTags = inputValue
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter((tag) => tag);
+    setTags([...tags, ...newTags]);
+    setInputValue("");
+  };
+
+  const handleTagRemove = (indexToRemove) => {
+    setTags(tags.filter((_, index) => index !== indexToRemove));
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -13,11 +34,17 @@ export default function PostProperty() {
       setSelectedImage(URL.createObjectURL(file));
     }
   };
+  const getCategories = async () => {
+    const response = await instance.get("/categories");
+    setCategories(response.data);
+  };
   useEffect(() => {
+    setSelectedImage(null);
     if (state?.errors?.image) {
       setSelectedImage(null);
     }
-  }, [state]);
+    getCategories();
+  }, []);
 
   return (
     <div>
@@ -58,11 +85,12 @@ export default function PostProperty() {
               id="category_id"
               className="px-5 py-2 bg-slate-400 rounded-full"
             >
-              <option value="house">House</option>
-              <option value="apartment">Apartment</option>
-              <option value="condo">Condo</option>
-              <option value="townhouse">Townhouse</option>
-              <option value="land">Land</option>
+              <option value="">House</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name}
+                </option>
+              ))}
             </select>
             {state?.errors?.category_id && <p>{state.errors.category_id}</p>}
             <label htmlFor="location" className="text-black dark:text-white">
@@ -87,6 +115,48 @@ export default function PostProperty() {
               className="px-5 py-2 bg-slate-400 rounded-full"
             />
             {state?.errors?.price && <p>{state.errors.price}</p>}
+
+            <label htmlFor="features" className="text-black dark:text-white">
+              Features
+            </label>
+            <textarea
+              name="features"
+              id="features"
+              cols="30"
+              rows="10"
+              placeholder="Features"
+              className="px-5 py-2 bg-slate-400 rounded-3xl"
+            ></textarea>
+            {state?.errors?.features && <p>{state.errors.features}</p>}
+            <label htmlFor="tags" className="text-black dark:text-white">
+              Tags
+            </label>
+            <input
+              type="text"
+              name="tags"
+              id="tags"
+              placeholder="Tags"
+              onChange={handleInputChange}
+              onBlur={handleInputBlur}
+              className="px-5 py-2 bg-slate-400 rounded-full"
+            />
+            <div className="flex flex-row gap-3">
+              {tags.map((tag, index) => (
+                <div
+                  key={index}
+                  className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full"
+                >
+                  {tag}
+                  <button
+                    type="button"
+                    className="ml-2 text-white"
+                    onClick={() => handleTagRemove(index)}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="w-1/2">
             <input
@@ -102,7 +172,7 @@ export default function PostProperty() {
                 <Image
                   src={selectedImage}
                   alt="Selected"
-                  className="size-full object-cover mt-4"
+                  className="size-full object-cover mt-4 rounded-full"
                   width={2000}
                   height={2000}
                 />

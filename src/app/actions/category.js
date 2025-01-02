@@ -13,16 +13,16 @@ export async function createCategory(state, formData) {
   const cookie = await getSession();
 
   console.log(cookie.mySession.access_token);
-  
+
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-  
+
   console.log(validatedFields.data);
-  console.log(cookie.mySession)
+  console.log(cookie.mySession);
   const access_token = cookie.mySession.access_token;
 
   const config = {
@@ -31,11 +31,10 @@ export async function createCategory(state, formData) {
       Authorization: `Bearer ${access_token}`,
     },
   };
-  
 
   // call the create category API
   instance
-    .post("/categories/", config, validatedFields.data)
+    .post("/categories/", validatedFields.data, config)
     .then((response) => {
       console.log(response);
     })

@@ -7,6 +7,8 @@ const acceptedImageTypes = [
   "image/webp",
 ];
 
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
 export const SignupFormSchema = z.object({
   name: z.string().min(1, { message: "Name is required" }).trim(),
   email: z.string().email({ message: "Invalid email address" }).trim(),
@@ -29,24 +31,19 @@ export const SigninFormSchema = z.object({
 export const PropertyFormSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }).trim(),
   description: z.string().min(1, { message: "Description is required" }).trim(),
-  categeory_id: z.string().min(1, { message: "Category is required" }).trim(),
+  category_id: z.string().min(1, { message: "Category is required" }).trim(),
+  user_id: z.string().min(1, { message: "User is required" }).trim(),
   price: z.number().int().min(1, { message: "Price is required" }),
   location: z.string().min(1, { message: "Location is required" }).trim(),
-  // image: z
-  //   .any()
-  //   .refine((files) => files?.length == 1, "Image is required.")
-  //   .refine(
-  //     (files) => acceptedImageTypes.includes(files?.[0]?.type),
-  //     "Only .jpg, .jpeg, .png, .webp files are accepted."
-  //   ),
   image: z
     .any()
-    .refine(imageValidator, { message: "Invalid image" })
-    .refine((file) => acceptedImageTypes.includes(file.type), {
-      message: "Only .jpg, .jpeg, .png, .webp files are accepted.",
-    }),
+    .refine((file) => file?.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => acceptedImageTypes.includes(file?.type),
+      "Only .jpg, .jpeg, .png and .webp formats are supported."
+    ),
   availability: z.boolean().default(true),
-  tags: z.array(z.string()).default([]),
+  tags: z.string().min(1, { message: "Tags is required" }).trim(),
   features: z.string().min(1, { message: "Features is required" }).trim(),
 });
 
@@ -60,7 +57,7 @@ function imageValidator(image) {
     return "Image is required";
   }
 
-  console.log("info here "+image.type);
+  console.log("info here " + image.type);
 
   if (!acceptedImageTypes.includes(image.type)) {
     return "Only .jpg, .jpeg, .png, .webp files are accepted.";
@@ -68,3 +65,11 @@ function imageValidator(image) {
 
   return null;
 }
+
+// image: z
+//   .any()
+//   .refine((files) => files?.length == 1, "Image is required.")
+//   .refine(
+//     (files) => acceptedImageTypes.includes(files?.[0]?.type),
+//     "Only .jpg, .jpeg, .png, .webp files are accepted."
+//   ),
