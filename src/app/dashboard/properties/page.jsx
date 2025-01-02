@@ -6,6 +6,7 @@ import Image from "next/image";
 import CategoryPill from "@/components/CategoryPill";
 import ProcessTags from "@/utils/ProcessTags";
 import TagPills from "@/components/TagPill";
+import { MapPinIcon } from "@heroicons/react/24/solid";
 
 export default function Page() {
   const [properties, setProperties] = useState([]);
@@ -61,8 +62,13 @@ export default function Page() {
                 />
               )}
 
-              <div>{property.location}</div>
-              <div>{property.price}</div>
+              <div className="flex flex-row justify-start align-middle gap-2">
+                <MapPinIcon className="size-5 text-blue-500" />
+                {property.location}
+              </div>
+              <div className="underline text-slate-900 sark:text-slate-900">
+                Ksh {property.price}
+              </div>
               <div>{property.status}</div>
               <div>{property.user_id}</div>
               <TagPills tags={ProcessTags(property.tags)} />
