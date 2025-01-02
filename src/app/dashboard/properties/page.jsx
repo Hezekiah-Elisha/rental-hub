@@ -2,45 +2,74 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { instance } from "@/api";
+import Image from "next/image";
+import CategoryPill from "@/components/CategoryPill";
+import ProcessTags from "@/utils/ProcessTags";
+import TagPills from "@/components/TagPill";
 
 export default function Page() {
-    const [properties, setProperties] = useState([]);
+  const [properties, setProperties] = useState([]);
+  const [categories, setCategories] = useState([]);
 
-    useEffect(() => {
-        instance.get("/listings").then((response) => {
-            setProperties(response.data);
-        });
-    }, []);
-return (
+  useEffect(() => {
+    instance.get("/listings").then((response) => {
+      setProperties(response.data);
+      console.log(response.data);
+    });
+    instance.get("/categories").then((response) => {
+      setCategories(response.data);
+      console.log(response.data);
+    });
+  }, []);
+  return (
     <div>
-        <div className="flex flex-row justify-between align-middle">
-            <div className="">Post Property</div>
-            <div>
-                <Link
-                    href={"/dashboard/properties/post-property"}
-                    className="bg-blue-500 rounded-full px-4 py-2 text-white"
-                >
-                    Post
-                </Link>
-            </div>
-        </div>
+      <div className="flex flex-row justify-between align-middle">
+        <div className="">Post Property</div>
         <div>
-            {properties.length === 0 ? (
-                <div>No properties available.</div>
-            ) : (
-                properties.map((property) => (
-                    <div key={property.id} className="flex flex-row justify-between align-middle">
-                        <div>{property.title}</div>
-                        <div>{property.description}</div>
-                        <div>{property.category_id}</div>
-                        <div>{property.location}</div>
-                        <div>{property.price}</div>
-                        <div>{property.status}</div>
-                        <div>{property.user_id}</div>
-                    </div>
-                ))
-            )}
+          <Link
+            href={"/dashboard/properties/post-property"}
+            className="bg-blue-500 rounded-full px-4 py-2 text-white"
+          >
+            Post
+          </Link>
         </div>
+      </div>
+      <div className="flex flex-row justify-between align-middle">
+        {properties.length === 0 ? (
+          <div>No properties available.</div>
+        ) : (
+          properties.map((property) => (
+            <div
+              key={property.id}
+              className="flex flex-col justify-between align-middle border rounded-xl p-5 hover:bg-blue-950 hover:text-white hover:cursor-pointer space-y-2"
+            >
+              <div>
+                {/* <Image src={`https://lo calhost:7000/${property.image}`} alt={property.title} width={100} height={100} /> */}
+              </div>
+              <h2 className="text-2xl capitalize">{property.title}</h2>
+              <hr />
+              <p>{property.description}</p>
+              {categories.find(
+                (category) => category.id === property.category_id
+              ) && (
+                <CategoryPill
+                  category={
+                    categories.find(
+                      (category) => category.id === property.category_id
+                    ).name
+                  }
+                />
+              )}
+
+              <div>{property.location}</div>
+              <div>{property.price}</div>
+              <div>{property.status}</div>
+              <div>{property.user_id}</div>
+              <TagPills tags={ProcessTags(property.tags)} />
+            </div>
+          ))
+        )}
+      </div>
     </div>
-);
+  );
 }
