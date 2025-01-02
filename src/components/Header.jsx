@@ -18,12 +18,19 @@ export default function Header() {
       if (session) {
         setIsAuthenticated(true);
         console.log(session);
+      }else{
+        setIsAuthenticated(false);
+        router.push("/signin");
+
       }
     });
     hasSession().then((session) => {
       if (session) {
         setIsAuthenticated(true);
         console.log(session);
+      } else {
+        setIsAuthenticated(false);
+        router.push("/signin");
       }
     });
   }, []);

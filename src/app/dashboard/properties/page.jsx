@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { instance } from "@/api";
 
-export default function page() {
+export default function Page() {
     const [properties, setProperties] = useState([]);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ return (
             <div className="">Post Property</div>
             <div>
                 <Link
-                    href={"/dashboard/post-property"}
+                    href={"/dashboard/properties/post-property"}
                     className="bg-blue-500 rounded-full px-4 py-2 text-white"
                 >
                     Post

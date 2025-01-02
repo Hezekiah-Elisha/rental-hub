@@ -2,11 +2,15 @@
 import { useActionState } from "react";
 import { createCategory } from "@/app/actions/category";
 
-export default function page() {
+export default function Page() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
   return (
     <div>
-      <form action={action} className="flex flex-col gap-4 align-middle justify-center items-center w-full">
+      <form
+        action={action}
+        className="flex flex-col gap-4 align-middle justify-center items-center w-full"
+      >
+        <label htmlFor="name">Name of Category</label>
         <input
           type="text"
           id="name"
@@ -15,6 +19,7 @@ export default function page() {
           className="px-5 py-2 bg-slate-400 rounded-full"
         />
         {state?.errors?.name && <p>{state.errors.name}</p>}
+        <label htmlFor="description">Description</label>
         <input
           type="text"
           id="description"

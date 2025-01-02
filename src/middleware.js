@@ -1,31 +1,45 @@
 import { NextResponse } from "next/server";
-import { getSession, hasSession, updateSession } from "./app/lib/session";
+import { getSession } from "./app/lib/session";
 
-const protectedRoutes = ["/dashboard", "/dashboard/*"];
+const protectedRoutes = ["/dashboard", "/dashboard/*", "/dashboard/home"];
 const publicRoutes = ["/signin", "/signup", "/"];
 
 export async function middleware(request) {
   const path = request.nextUrl.pathname;
-  const isProtectedRoute = protectedRoutes.some(route => path.startsWith(route));
+
+  // Exclude source map files
+  if (path.endsWith(".map")) {
+    return NextResponse.next();
+  }
+
+  const isProtectedRoute = protectedRoutes.some((route) =>
+    path.startsWith(route)
+  );
   const isPublicRoute = publicRoutes.includes(path);
 
-  const session = getSession();
+  try {
+    const session = await getSession()
+      .then((session) => {
+        if (isProtectedRoute && session === null) {
+          console.log("Protected Route: ", path);
+          return NextResponse.redirect(new URL("/signin", request.url));
+        }
 
-  if (isProtectedRoute && !session) {
-    console.log("Protected Route: ", path);
+        if (isPublicRoute && session !== null) {
+          console.log("Public Route: ", path);
+          return NextResponse.redirect(new URL("/dashboard", request.url));
+        }
+
+        return NextResponse.next();
+      })
+      .catch((error) => {
+        console.log("Error: ", error);
+        return NextResponse.redirect(new URL("/signin", request.url));
+      });
+  } catch (error) {
+    console.log("Error: ", error);
     return NextResponse.redirect(new URL("/signin", request.url));
   }
-  // // if (isProtectedRoute && session === true) {
-  // //   console.log("Protected Route: ", path);
-  // //   return NextResponse.next();
-  // // }
-
-  // // if (isPublicRoute && session === true) {
-  // //   return NextResponse.redirect(new URL("/dashboard", request.url));
-  // // }
-
-  // return NextResponse.next();
-  // return await updateSession(request);
 }
 
 // Routes Middleware should not run on

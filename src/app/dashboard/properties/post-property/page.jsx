@@ -1,7 +1,7 @@
 "use client";
 import { createProperty } from "@/app/actions/property";
 import Image from "next/image";
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 
 export default function PostProperty() {
   const [state, action, isPending] = useActionState(createProperty, undefined);
@@ -13,24 +13,35 @@ export default function PostProperty() {
       setSelectedImage(URL.createObjectURL(file));
     }
   };
+  useEffect(() => {
+    if (state?.errors?.image) {
+      setSelectedImage(null);
+    }
+  }, [state]);
 
   return (
     <div>
       <form
         action={action}
         className="flex flex-col gap-4 align-middle justify-center items-center"
+        encType="multipart/form-data"
       >
         <div className="flex flex-row justify-between align-middle gap-4">
-          <div className="flex flex-col justify-center gap-4 w-1/2 placeholder:text-white">
+          <div className="flex flex-col justify-center gap-4 w-1/2 text-black">
+            <label htmlFor="title" className="text-black dark:text-white">
+              Title
+            </label>
             <input
               type="text"
               id="title"
               name="title"
               placeholder="Title"
-              className="px-5 py-2 bg-slate-400 rounded-full"
+              className="px-5 py-2 bg-slate-400 rounded-full placeholder:text-blue"
             />
             {state?.errors?.title && <p>{state.errors.title}</p>}
-
+            <label htmlFor="description" className="text-black dark:text-white">
+              Description
+            </label>
             <input
               type="text"
               id="description"
@@ -39,6 +50,9 @@ export default function PostProperty() {
               className="px-5 py-2 bg-slate-400 rounded-full"
             />
             {state?.errors?.description && <p>{state.errors.description}</p>}
+            <label htmlFor="category" className="text-black dark:text-white">
+              Choose Category
+            </label>
             <select
               name="category_id"
               id="category_id"
@@ -51,6 +65,9 @@ export default function PostProperty() {
               <option value="land">Land</option>
             </select>
             {state?.errors?.category_id && <p>{state.errors.category_id}</p>}
+            <label htmlFor="location" className="text-black dark:text-white">
+              Location
+            </label>
             <input
               type="text"
               id="location"
@@ -59,6 +76,9 @@ export default function PostProperty() {
               className="px-5 py-2 bg-slate-400 rounded-full"
             />
             {state?.errors?.location && <p>{state.errors.location}</p>}
+            <label htmlFor="price" className="text-black dark:text-white">
+              Price
+            </label>
             <input
               type="text"
               id="price"
