@@ -42,11 +42,17 @@ export default function Page() {
           properties.map((property) => (
             <div
               key={property.id}
-              className="flex flex-col justify-between align-middle border rounded-xl p-5 hover:bg-blue-950 hover:text-white hover:cursor-pointer space-y-2"
+              className="flex flex-col justify-between align-middle border rounded-xl p-5 hover:bg-blue-950 hover:text-white hover:cursor-pointer space-y-2 w-1/4 flex-wrap"
             >
-              <div>
-                {/* <Image src={`https://lo calhost:7000/${property.image}`} alt={property.title} width={100} height={100} /> */}
-              </div>
+              {/* <div className="w-full"> */}
+              <Image
+                src={`http://localhost:7000/listings/image/${property.image}`}
+                alt={property.title}
+                width={1500}
+                height={0}
+                className="w-full object-cover"
+              />
+              {/* </div> */}
               <h2 className="text-2xl capitalize">{property.title}</h2>
               <hr />
               <p>{property.description}</p>
