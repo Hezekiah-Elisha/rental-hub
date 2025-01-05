@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useActionState, useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
@@ -6,12 +6,11 @@ import { signup } from "@/app/actions/auth";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
-  const [state, action, isPending ] = useActionState(signup, undefined);
+  const [state, action, isPending] = useActionState(signup, undefined);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
-
 
   return (
     <div className="flex flex-row min-h-screen">
@@ -30,6 +29,7 @@ export default function Signup() {
           action={action}
           className="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
         >
+          <label htmlFor="name">Full Name</label>
           <input
             type="text"
             placeholder="Full name"
@@ -39,6 +39,7 @@ export default function Signup() {
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
           {state?.errors?.name && <p>{state.errors.name}</p>}
+          <label htmlFor="email">Email</label>
           <input
             type="email"
             placeholder="Email"
@@ -48,6 +49,7 @@ export default function Signup() {
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
           {state?.errors?.email && <p>{state.errors.email}</p>}
+          <label htmlFor="password">Password</label>
           <div className="relative flex flex-row w-full">
             <input
               type={showPassword ? "text" : "password"}

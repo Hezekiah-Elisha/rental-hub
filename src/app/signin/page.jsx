@@ -2,6 +2,7 @@
 import { useState, useActionState } from "react";
 import { signin } from "@/app/actions/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
+import Link from "next/link";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,7 +14,7 @@ export default function Signin() {
 
   return (
     <div className="flex flex-row min-h-screen">
-      <div className="flex flex-col justify-center align-middle items-center gap-2 mx-auto w-full md:w-1/2">
+      <div className="flex flex-col justify-center align-middle items-center gap-2 mx-auto w-full md:w-1/2 space-y-4">
         <div className="w-full px-4 md:px-20">
           <span className="text-3xl">Hello, We are happy to see you here</span>
         </div>
@@ -21,6 +22,7 @@ export default function Signin() {
           action={action}
           className="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
         >
+          <label htmlFor="email">Email</label>
           <input
             type="text"
             placeholder="email"
@@ -29,6 +31,7 @@ export default function Signin() {
             className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
           />
           {state?.errors?.email && <p>{state.errors.email}</p>}
+          <label htmlFor="password">Password</label>
           <div className="relative flex flex-row w-full">
             <input
               type={showPassword ? "text" : "password"}
@@ -67,6 +70,11 @@ export default function Signin() {
           >
             {isPending ? "Loading..." : "Sign in"}
           </button>
+          <div className="flex flex-col justify-end align-middle items-end w-full">
+            <Link href="/signup" className="text-black dark:text-white">
+              Don&apos;t have an account? Sign up
+            </Link>
+          </div>
         </form>
       </div>
       <div className="relative hidden md:flex justify-center align-middle items-center w-1/2 bg-blue-100 dark:bg-blue-800">
