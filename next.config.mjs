@@ -5,8 +5,8 @@ const nextConfig = {
             {
                 protocol: "https",
                 hostname: "api.rental.hub.ke",
-                port: "80",
-                pathname: "/listings/image/*"
+                port: "",
+                pathname: "/listings/image/**"
             }
         ]
     },

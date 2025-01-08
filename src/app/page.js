@@ -1,7 +1,12 @@
-import React from 'react'
+import Hero from "@/components/Hero";
+import RecentListings from "@/components/RecentListings";
+import React from "react";
 
 export default function Home() {
   return (
-    <div>Home</div>
-  )
+    <section className="w-full">
+      <Hero />
+      <RecentListings />
+    </section>
+  );
 }

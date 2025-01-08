@@ -104,7 +104,6 @@ export async function signin(state, formData) {
 
   await createCookie(response.data);
   redirect("/dashboard");
-
 }
 
 export async function logout() {

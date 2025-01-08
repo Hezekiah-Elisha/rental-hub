@@ -46,7 +46,7 @@ export default function Page() {
             >
               {/* <div className="w-full"> */}
               <Image
-                src={`http://localhost:7000/listings/image/${property.image}`}
+                src={`https://api.rental.hub.ke/listings/image/${property.image}`}
                 alt={property.title}
                 width={1500}
                 height={0}
