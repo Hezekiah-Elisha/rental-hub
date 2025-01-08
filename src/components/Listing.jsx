@@ -5,7 +5,10 @@ import React from "react";
 
 export default function Listing() {
   return (
-    <Link href="/listing/23" className="flex flex-col gap-2 w-full p-4 rounded-lg dark:hover:bg-blue-950 hover:bg-blue-50">
+    <Link
+      href="/listing/23"
+      className="flex flex-col gap-2 w-full p-4 rounded-lg dark:hover:bg-blue-950 hover:bg-blue-50"
+    >
       <Image
         src="/cate.jpg"
         alt="Catherine Zaidova"

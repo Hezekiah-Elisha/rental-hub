@@ -11,28 +11,33 @@ export default function Hero() {
         <input
           type="text"
           placeholder="Location"
-          className="p-2 h-10 focus:outline-none"
+          className="p-2 h-10 w-full focus:outline-none"
         />
-        <input
+        {/* <input
           type="text"
           placeholder="House Type"
           className="p-2 h-10 focus:outline-none"
-        />
+        /> */}
+        <select className="p-2 h-10 w-full focus:outline-none text-black dark:text-white">
+          <option value="house">House</option>
+          <option value="apartment">Apartment</option>
+          <option value="office">Office</option>
+        </select>
         <input
           type="number"
           placeholder="Maximum Rent"
-          className="p-2 h-10 focus:outline-none"
+          className="p-2 h-10 w-full focus:outline-none"
           min={0}
         />
         <input
           type="text"
           placeholder="Special Condition"
-          className="p-2 h-10 focus:outline-none"
+          className="p-2 h-10 w-full focus:outline-none"
         />
         <input
           type="text"
           placeholder="Minimum Bedrooms"
-          className="p-2 h-10 focus:outline-none"
+          className="p-2 h-10 w-full focus:outline-none"
         />
         <button type="submit" className="bg-blue-500 text-white px-4 py-2">
           Search
@@ -40,11 +45,17 @@ export default function Hero() {
       </form>
       <p className="underline text-sm text-slate-400">
         Photo by{" "}
-        <a href="https://unsplash.com/@k_zaidova?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        <a
+          href="https://unsplash.com/@k_zaidova?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+          target="_blank"
+        >
           Catherine Zaidova
         </a>{" "}
         on{" "}
-        <a href="https://unsplash.com/photos/a-view-of-the-ocean-from-a-high-rise-building-IQKFgfiWzfg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">
+        <a
+          href="https://unsplash.com/photos/a-view-of-the-ocean-from-a-high-rise-building-IQKFgfiWzfg?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash"
+          target="_blank"
+        >
           Unsplash
         </a>
       </p>
