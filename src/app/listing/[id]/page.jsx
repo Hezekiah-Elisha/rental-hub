@@ -2,8 +2,8 @@ import Breadcrumbs from "@/components/Breadcumbs";
 import Image from "next/image";
 import React from "react";
 
-export default function page({ params }) {
-  const listingId = params.id;
+export default async function page({ params }) {
+  const { id: listingId } = params; // Destructure the id from params
   return (
     <div className="container mx-auto flex flex-col gap-4">
       <Breadcrumbs />

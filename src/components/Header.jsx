@@ -1,64 +1,30 @@
 "use client";
-import { useEffect, useState } from "react";
 import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Popover } from "react-tiny-popover";
-import  { logout } from "@/app/actions/auth";
-import { getSession, hasSession } from "@/app/lib/session";
+import { signIn, signOut, useSession } from "next-auth/react";
 
 export default function Header() {
-  const [isPopoverOpen, setIsPopoverOpen] = useState(false);
-  const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState(getSession() || hasSession());
+  const { data:session } = useSession();
+  console.log(session);
+  if (session) {
+    return (
+      <div className="flex flex-row justify-between align-middle items-center p-5 dark:bg-opacity-50 backdrop-blur-3xl">
+        <Link href="/">
+          <h1 className="text-3xl">Rental Hub</h1>
+        </Link>
+        <div className="flex flex-row align-middle justify-center items-center gap-4">
+          <DarkModeSwitch />
 
-  useEffect(() => {
-    getSession().then((session) => {
-      if (session) {
-        setIsAuthenticated(true);
-        console.log(session);
-      }else{
-        setIsAuthenticated(false);
-        router.push("/signin");
+          <div className="flex flex-row gap-4 justify-center align-middle items-center">
+            {/* {session.user.name} */}
+            <Link href="/dashboard">Dashboard</Link>
 
-      }
-    });
-    hasSession().then((session) => {
-      if (session) {
-        setIsAuthenticated(true);
-        console.log(session);
-      } else {
-        setIsAuthenticated(false);
-        router.push("/signin");
-      }
-    });
-  }, []);
-
-  const handleMouseEnter = () => setIsPopoverOpen(true);
-  const handleMouseLeave = () => setIsPopoverOpen(false);
-
-  const handleLogout = () => {
-    // Perform logout logic here
-    // For example, remove tokens from cookies/localStorage
-    // Then redirect to the login page
-
-    logout().then(() => {
-      setIsAuthenticated(false);
-      router.push("/signin");
-    }).catch((error) => {
-      console.error("Logout error:", error);
-    });
-  };
-
-  return (
-    <div className="flex flex-row justify-between align-middle items-center p-5 dark:bg-opacity-50 backdrop-blur-3xl">
-      <Link href="/">
-        <h1 className="text-3xl">Rental Hub</h1>
-      </Link>
-      <div className="flex flex-row align-middle justify-center items-center gap-4">
-        <DarkModeSwitch />
-        {isAuthenticated ? (
+            <button onClick={() => signOut()} className="text-red-500">
+              Logout
+            </button>
+          </div>
+          {/* {isAuthenticated ? (
           <div className="flex flex-row gap-4 justify-center align-middle items-center">
             <button onClick={handleLogout} className="text-red-500">
               Logout
@@ -88,7 +54,19 @@ export default function Header() {
           </div>
         ) : (
           <Link href="/signin">Sign In</Link>
-        )}
+        )} */}
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="flex flex-row justify-between align-middle items-center p-5 dark:bg-opacity-50 backdrop-blur-3xl">
+      <Link href="/">
+        <h1 className="text-3xl">Rental Hub</h1>
+      </Link>
+      <div className="flex flex-row align-middle justify-center items-center gap-4">
+        <DarkModeSwitch />
+        <Link href="/api/auth/signin">Sign In</Link>
       </div>
     </div>
   );
