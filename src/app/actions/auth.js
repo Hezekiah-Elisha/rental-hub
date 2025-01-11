@@ -55,12 +55,22 @@ export async function signin(state, formData) {
     };
   }
   const { email, password } = validatedFields.data;
-  console.log(email, password);
 
-  const response = await instance.post("/users/auth/login", {
-    email: email,
-    password: password,
-  });
+  const response = await instance
+    .post("/users/auth/login", {
+      email: email,
+      password: password,
+    })
+    .then((response) => {
+      // console.log(response);
+      createCookie("access_token", response.data.access_token);
+      createCookie("refresh_token", response.data.refresh_token);
+      createCookie("user", response.data.user);
+      redirect("/dashboard");
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 
   // if (response.status !== 200) {
   //   return {
@@ -102,7 +112,7 @@ export async function signin(state, formData) {
   //   };
   // }
 
-  await createCookie(response.data);
+  // await createCookie("access_token", response.data.access_token);
   redirect("/dashboard");
 }
 

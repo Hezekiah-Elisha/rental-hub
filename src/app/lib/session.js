@@ -43,13 +43,10 @@ export async function decrypt(session) {
   }
 }
 
-export async function createCookie(mySession) {
-  console.log("Creating cookie");
-  console.log("Session: ", mySession);
-  const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
-  const session = await encrypt({ mySession, expires });
+export async function createCookie(key, value) {
+  const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
 
-  setCookie("session", session, {
+  setCookie(key, value, {
     httpOnly: false,
     secure: true,
     expires: expires,
@@ -59,7 +56,13 @@ export async function createCookie(mySession) {
 }
 
 export async function logout() {
-  deleteCookie("session");
+  await deleteAllCookies();
+}
+
+export async function deleteAllCookies() {
+  deleteCookie("access_token");
+  deleteCookie("refresh_token");
+  deleteCookie("user");
 }
 
 export async function getSession() {
