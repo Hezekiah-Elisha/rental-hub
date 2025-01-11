@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 
 const protectedRoutes = ["/dashboard", "/profile"];
 
-const productionUrl = "http://localhost:3000/";
+const productionUrl = process.env.PRODUCTION_URL || "http://localhost:3000";
 
 export async function middleware(req) {
   const isProtectedRoute = protectedRoutes.some((route) =>
