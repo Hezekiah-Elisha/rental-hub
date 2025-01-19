@@ -69,7 +69,12 @@ export async function signin(state, formData) {
       redirect("/dashboard");
     })
     .catch((error) => {
-      console.log(error);
+      // console.log(error);
+      return {
+        errors: {
+          email: "Invalid email or password",
+        },
+      };
     });
 
   // if (response.status !== 200) {
