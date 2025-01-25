@@ -57,7 +57,7 @@ export async function signin(state, formData) {
   const { email, password } = validatedFields.data;
 
   const response = await instance
-    .post("/users/auth/login", {
+    .post("/auth/login", {
       email: email,
       password: password,
     })
@@ -127,7 +127,7 @@ export async function logout() {
 }
 
 export async function getUser() {
-  const response = await instance.get("/users/auth/user");
+  const response = await instance.get("/auth/user");
   return response.data;
 }
 
