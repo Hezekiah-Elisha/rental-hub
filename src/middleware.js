@@ -1,5 +1,4 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
 
 const protectedRoutes = ["/dashboard", "/profile"];
 
@@ -10,10 +9,9 @@ export async function middleware(req) {
     req.nextUrl.pathname.startsWith(route)
   );
   if (isProtectedRoute) {
-    const cookiesStore = await cookies();
-    const authCookies = cookiesStore.get("access_token");
+    const access_token = req.cookies.get("access_token");
 
-    if (!authCookies) {
+    if (!access_token) {
       return NextResponse.redirect(new URL("/signin", req.url));
     }
     return NextResponse.next();

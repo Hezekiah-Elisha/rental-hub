@@ -1,8 +1,7 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { createCookie, getSession } from "../lib/session";
-import { deleteCookie } from "cookies-next";
+import { createCookie, deleteCookie } from "../lib/session";
 
 // import { deleteSession } from '@/app/lib/session'
 // import { createSession } from "@/app/lib/session";
@@ -62,7 +61,7 @@ export async function signin(state, formData) {
       password: password,
     })
     .then((response) => {
-      // console.log(response);
+      console.log(response);
       createCookie("access_token", response.data.access_token);
       createCookie("refresh_token", response.data.refresh_token);
       createCookie("user", response.data.user);
@@ -76,48 +75,6 @@ export async function signin(state, formData) {
         },
       };
     });
-
-  // if (response.status !== 200) {
-  //   return {
-  //     errors: {
-  //       email: "Invalid email or password",
-  //     },
-  //   };
-  // }
-
-  // if (response.statusText === "Unauthorized") {
-  //   return {
-  //     errors: {
-  //       email: "Invalid email or password",
-  //     },
-  //   };
-  // }
-
-  // if (response.statusText === "Internal Server Error") {
-  //   return {
-  //     errors: {
-  //       email: "Internal Server Error",
-  //     },
-  //   };
-  // }
-
-  // if (response.statusText === "Bad Request") {
-  //   return {
-  //     errors: {
-  //       email: "Bad Request",
-  //     },
-  //   };
-  // }
-
-  // if (!response.data) {
-  //   return {
-  //     errors: {
-  //       email: "Invalid email or password",
-  //     },
-  //   };
-  // }
-
-  // await createCookie("access_token", response.data.access_token);
   redirect("/dashboard");
 }
 

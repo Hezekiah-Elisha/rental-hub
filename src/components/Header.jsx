@@ -1,24 +1,23 @@
 "use client";
 import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
-import Image from "next/image";
-import { hasCookie } from "cookies-next";
 import { useEffect, useState } from "react";
-import { deleteAllCookies } from "@/app/lib/session";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { hasCookie } from "@/app/lib/session";
 
 export default function Header() {
-  const router = useRouter();
-  const [loggedIn, setLoggedIn] = useState(hasCookie("access_token"));
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    setLoggedIn(hasCookie("access_token"));
-  }, [loggedIn]);
+    const checkLogin = async () => {
+      const loggedIn = await hasCookie("access_token");
+      setLoggedIn(loggedIn);
+    };
+    checkLogin();
+  }, []);
 
   const handleLogout = () => {
     deleteAllCookies();
-    // router.push("/signin");
     redirect("/signin");
   };
 
@@ -31,7 +30,11 @@ export default function Header() {
         <div className="flex flex-row align-middle justify-center items-center gap-4">
           <DarkModeSwitch />
           <Link href="/dashboard">Dashbaord</Link>
-          <Link href={"/signin"} onClick={handleLogout} className="cursor-pointer text-red-600">
+          <Link
+            href={"/signin"}
+            onClick={handleLogout}
+            className="cursor-pointer text-red-600"
+          >
             Sign Out
           </Link>
         </div>
