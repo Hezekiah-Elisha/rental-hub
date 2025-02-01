@@ -3,7 +3,7 @@ import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { redirect } from "next/navigation";
-import { hasCookie } from "@/app/lib/session";
+import { deleteAllCookies, hasCookie } from "@/app/lib/session";
 
 export default function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -18,7 +18,7 @@ export default function Header() {
 
   const handleLogout = () => {
     deleteAllCookies();
-    redirect("/signin");
+    window.location.href = "/signin";
   };
 
   if (loggedIn) {
@@ -31,7 +31,7 @@ export default function Header() {
           <DarkModeSwitch />
           <Link href="/dashboard">Dashbaord</Link>
           <Link
-            href={"/signin"}
+            href={""}
             onClick={handleLogout}
             className="cursor-pointer text-red-600"
           >

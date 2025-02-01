@@ -1,4 +1,5 @@
 "use server";
+import { redirect } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
 
 export async function createCookie(key, value) {
@@ -30,9 +31,17 @@ export async function deleteCookie(key) {
   cookieStore.delete(key);
 }
 
+// export async function deleteAllCookies() {
+//   (await cookies()).clear();
+// }
+
 export async function deleteAllCookies() {
-  const cookieStore = await cookies();
-  cookieStore.clear();
+  const cookieStore = cookies();
+  const allCookies = cookieStore.getAll();
+
+  for (const cookie of allCookies) {
+    cookieStore.delete(cookie.name);
+  }
 }
 
 export async function hasCookie(key) {

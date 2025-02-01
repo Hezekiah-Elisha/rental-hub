@@ -1,7 +1,7 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { createCookie, deleteCookie } from "../lib/session";
+import { createCookie, deleteAllCookies, deleteCookie } from "../lib/session";
 
 // import { deleteSession } from '@/app/lib/session'
 // import { createSession } from "@/app/lib/session";
@@ -61,11 +61,12 @@ export async function signin(state, formData) {
       password: password,
     })
     .then((response) => {
-      console.log(response);
       createCookie("access_token", response.data.access_token);
       createCookie("refresh_token", response.data.refresh_token);
       createCookie("user", response.data.user);
-      redirect("/dashboard");
+      if (response.status === 200) {
+        window.location.href = "/dashboard";
+      }
     })
     .catch((error) => {
       // console.log(error);
@@ -75,12 +76,11 @@ export async function signin(state, formData) {
         },
       };
     });
-  redirect("/dashboard");
+  // redirect("/dashboard");
 }
 
 export async function logout() {
-  await deleteCookie("session");
-  return redirect("/signin");
+  deleteAllCookies();
 }
 
 export async function getUser() {
