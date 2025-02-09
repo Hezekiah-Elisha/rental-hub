@@ -64,9 +64,7 @@ export async function signin(state, formData) {
       createCookie("access_token", response.data.access_token);
       createCookie("refresh_token", response.data.refresh_token);
       createCookie("user", response.data.user);
-      if (response.status === 200) {
-        window.location.href = "/dashboard";
-      }
+      return response;
     })
     .catch((error) => {
       // console.log(error);

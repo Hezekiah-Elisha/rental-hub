@@ -1,24 +1,24 @@
-"use client"
+"use client";
 import { isLoggedIn } from "@/app/actions/auth";
+import { Card } from "@/components/ui/card";
 import { redirect } from "next/navigation";
 
 export default function DashboardHome() {
-
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between align-middle">
-        <div className="rounded-3xl shadow-2xl bg-blue-800 p-10 w-1/4 text-white">
+        <Card className="p-2">
           <h1 className="text-sm">Total Cash</h1>
           <p className="text-9xl text-center w-full">56K</p>
-        </div>
-        <div className="rounded-3xl shadow-2xl bg-blue-800 p-10 w-1/4 text-white">
+        </Card>
+        <Card className="p-2">
           <h1 className="text-sm">Total Number of houses</h1>
           <p className="text-9xl text-center w-full">17</p>
-        </div>
-        <div className="rounded-3xl shadow-2xl bg-blue-800 p-10 w-1/4 text-white">
+        </Card>
+        <Card className="p-2">
           <h1 className="text-sm">Subscription Days</h1>
           <p className="text-9xl text-center w-full">13</p>
-        </div>
+        </Card>
       </div>
       <div className="shadow-2xl rounded-3xl w-full">
         <table className="p-20 w-full">

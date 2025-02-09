@@ -36,7 +36,7 @@ export async function deleteCookie(key) {
 // }
 
 export async function deleteAllCookies() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const allCookies = cookieStore.getAll();
 
   for (const cookie of allCookies) {

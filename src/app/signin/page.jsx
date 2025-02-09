@@ -3,10 +3,15 @@ import { useState, useActionState } from "react";
 import { signin } from "@/app/actions/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
-  const [state, action, isPending] = useActionState(signin, undefined);
+  const [state, action, isPending] = useActionState(signin, undefined, "/dashboard");
+
+  if (state?.status === "200"){
+    redirect("/dashboard");
+  }
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
