@@ -1,7 +1,7 @@
 import { CategoryFormSchema } from "../lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { getSession } from "../lib/session";
+import { getCookie } from "../lib/session";
 
 export async function createCategory(state, formData) {
   //validate form fields
@@ -10,9 +10,17 @@ export async function createCategory(state, formData) {
     description: formData.get("description"),
   });
 
-  const cookie = await getSession();
-
-  console.log(cookie.mySession.access_token);
+  const access_token = await getCookie("access_token")
+    .then((cookie) => {
+      return cookie;
+    })
+    .catch((error) => {
+      return {
+        errors: {
+          name: "Invalid session",
+        },
+      };
+    });
 
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
@@ -23,12 +31,12 @@ export async function createCategory(state, formData) {
 
   console.log(validatedFields.data);
   console.log(cookie.mySession);
-  const access_token = cookie.mySession.access_token;
+  
 
   const config = {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${access_token}`,
+      Authorization: `Bearer ${access_token.value}`,
     },
   };
 

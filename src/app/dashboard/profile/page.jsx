@@ -1,14 +1,13 @@
 "use client";
 import { useEffect, useState } from "react";
 import { instance } from "@/api";
-import { getSession } from "@/app/lib/session";
+import { getCookie } from "@/app/lib/session";
 
 export default function DashboardProfile() {
   const [profile, setProfile] = useState({});
-  const accessToken = getSession().then((session) => {
-    return session.mySession.access_token;
+  const accessToken = getCookie("access_token").then((cookie) => {
+    return cookie.value;
   });
-
 
   useEffect(() => {
     const getProfile = async () => {
@@ -16,7 +15,7 @@ export default function DashboardProfile() {
         .get("/users/auth/user", {
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         })
         .then((response) => {
@@ -29,6 +28,6 @@ export default function DashboardProfile() {
     };
 
     getProfile();
-  }, []);
+  }, [accessToken]);
   return <div>{profile.id}</div>;
 }
