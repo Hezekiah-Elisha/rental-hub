@@ -18,7 +18,8 @@ export default function Header() {
 
   const handleLogout = () => {
     deleteAllCookies();
-    window.location.href = "/signin";
+    // window.location.href = "/signin";
+    redirect("/signin");
   };
 
   if (loggedIn) {

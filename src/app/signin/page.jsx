@@ -9,7 +9,8 @@ export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
   const [state, action, isPending] = useActionState(signin, undefined, "/dashboard");
 
-  if (state?.status === "200"){
+  // is state has response of status 200, redirect to dashboard
+  if (state?.status === 200) {
     redirect("/dashboard");
   }
 

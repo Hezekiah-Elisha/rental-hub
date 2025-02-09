@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { instance } from "@/api";
 import Image from "next/image";
-import CategoryPill from "@/components/CategoryPill";
 import ProcessTags from "@/utils/ProcessTags";
 import TagPills from "@/components/TagPill";
 import { MapPinIcon } from "@heroicons/react/24/solid";

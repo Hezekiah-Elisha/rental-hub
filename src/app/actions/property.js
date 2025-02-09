@@ -1,15 +1,9 @@
 import { PropertyFormSchema } from "../lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { getSession } from "../lib/session";
+import { getCookie } from "../lib/session";
 
 export async function createProperty(state, formData) {
-
-  console.log(formData)
-  const session = await getSession();
-  const user = session.mySession.user
-
-
   //validate form fields
   const validatedFields = PropertyFormSchema.safeParse({
     title: formData.get("title"),
@@ -32,13 +26,22 @@ export async function createProperty(state, formData) {
     };
   }
 
-  const cookie = await getSession();
-  console.log(cookie.mySession.access_token);
+  const access_token = await getCookie("access_token")
+    .then((cookie) => {
+      return cookie;
+    })
+    .catch((error) => {
+      return {
+        errors: {
+          name: "Invalid session",
+        },
+      };
+    });
 
   const config = {
     headers: {
       "Content-Type": "multipart/form-data",
-      Authorization: `Bearer ${cookie.mySession.access_token}`,
+      Authorization: `Bearer ${access_token.value}`,
     },
   };
 
