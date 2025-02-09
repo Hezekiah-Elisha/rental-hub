@@ -1,7 +1,7 @@
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
-import { createCookie, deleteAllCookies, deleteCookie } from "../lib/session";
+import { createCookie, deleteAllCookies } from "../lib/session";
 
 // import { deleteSession } from '@/app/lib/session'
 // import { createSession } from "@/app/lib/session";

@@ -1,9 +1,12 @@
+"use client";
 import Breadcrumbs from "@/components/Breadcumbs";
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { useParams } from "next/navigation";
 import React from "react";
 
-export default async function page({ params }) {
-  const { id: listingId } = params; // Destructure the id from params
+export default function Page() {
+  const { id } = useParams(); // Destructure the id from params
   return (
     <div className="container mx-auto flex flex-col gap-4">
       <Breadcrumbs />
@@ -26,9 +29,10 @@ export default async function page({ params }) {
           <p>
             KSH. 50,000 <span className="text-slate-400">/month</span>
           </p>
-          <button className="rounded-xl bg-blue-950 text-white p-4">
+          {/* <button className="rounded-xl bg-blue-950 text-white p-4">
             Contact Landloard
-          </button>
+          </button> */}
+          <Button>Contact Landloard</Button>
         </div>
       </div>
       <iframe
