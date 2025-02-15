@@ -12,7 +12,7 @@ import {
 } from "./ui/card";
 import { Button } from "./ui/button";
 
-export default function Listing() {
+export default function Listing({ listing }) {
   return (
     <Link href="/listing/23" className="">
       <Card className="">
@@ -24,13 +24,15 @@ export default function Listing() {
             height={900}
             className="size-96 w-full object-cover rounded-lg"
           />
-          <CardTitle>House in the Woods</CardTitle>
+          <CardTitle>{listing.title}</CardTitle>
           <CardDescription className="text-slate-400">
             3 Bedrooms, 2 Bathrooms
           </CardDescription>
         </CardHeader>
         <CardContent>
           <p className="text-slate-400">Location: California</p>
+
+          <p className="text-slate-400">Price: KES.{listing.price}</p>
         </CardContent>
         <CardFooter className="flex flex-row justify-between align-middle items-center w-full">
           <Button className="">View</Button>
