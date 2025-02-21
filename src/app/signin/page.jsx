@@ -4,10 +4,16 @@ import { signin } from "@/app/actions/auth";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
-  const [state, action, isPending] = useActionState(signin, undefined, "/dashboard");
+  const [state, action, isPending] = useActionState(
+    signin,
+    undefined,
+    "/dashboard"
+  );
+  const { refreshToken } = useAuth();
 
   // is state has response of status 200, redirect to dashboard
   if (state?.status === 200) {
@@ -72,6 +78,9 @@ export default function Signin() {
 
           <button
             type="submit"
+            onClick={() => {
+              refreshToken();
+            }}
             className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
           >
             {isPending ? "Loading..." : "Sign in"}

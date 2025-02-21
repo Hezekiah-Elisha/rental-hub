@@ -3,6 +3,7 @@ import "./globals.css";
 import Providers from "./Providers";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { AuthProvider } from "@/lib/auth-context";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,7 +27,8 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider
+        <AuthProvider>
+          <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
@@ -37,6 +39,7 @@ export default function RootLayout({ children }) {
             </div>
             {children}
           </ThemeProvider>
+        </AuthProvider>
       </body>
     </html>
   );
