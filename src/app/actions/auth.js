@@ -65,6 +65,7 @@ export async function signin(state, formData) {
       createCookie("access_token", response.data.access_token);
       createCookie("refresh_token", response.data.refresh_token);
       createCookie("user", response.data.user);
+      // redirect("/dashboard");
       return response;
     })
     .catch((error) => {
@@ -75,6 +76,9 @@ export async function signin(state, formData) {
         },
       };
     });
+    if (response.status === 200){
+      redirect("/dashboard");
+    }
   // redirect("/dashboard");
 }
 

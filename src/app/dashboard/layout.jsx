@@ -1,5 +1,4 @@
 "use client";
-import SideNav from "@/components/SideNav";
 import React from "react";
 import Breadcrumbs from "@/components/Breadcumbs";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
