@@ -4,18 +4,7 @@ import Providers from "./Providers";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/lib/auth-context";
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
+``
 export const metadata = {
   title: "Rental Hub",
   description: "Your nearest Rental partner",
@@ -25,7 +14,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`antialiased`}
       >
         <AuthProvider>
           <ThemeProvider
@@ -34,9 +23,6 @@ export default function RootLayout({ children }) {
             enableSystem
             disableTransitionOnChange
           >
-            <div className="sticky">
-              <Header />
-            </div>
             {children}
           </ThemeProvider>
         </AuthProvider>

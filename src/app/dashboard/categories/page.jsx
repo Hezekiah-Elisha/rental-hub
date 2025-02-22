@@ -27,7 +27,7 @@ export default function CategoriesPage() {
         link="/dashboard/categories/create-category"
         linkText="Create Category"
       />
-      <div className="flex flex-row align-middle p-4 flex-wrap gap-6">
+      <div className="flex flex-row justify-start align-middle p-4 flex-wrap gap-2">
         {categories.length === 0 ? (
           <div>No categories available.</div>
         ) : (
@@ -41,9 +41,9 @@ export default function CategoriesPage() {
                 <p>{category.description}</p>
               </CardContent>
               <CardFooter>
-                <div className="w-full flex flex-row justify-end align-middle text-sm gap-2">
-                  <TrashIcon className="size-4 text-red-400 hover:cursor-pointer" />
-                  <PencilIcon className="size-4 text-green-400 hover:cursor-pointer" />
+                <div className="w-full flex flex-row justify-start align-middle text-sm gap-2">
+                  <TrashIcon className="size-4 hover:cursor-pointer" />
+                  <PencilIcon className="size-4 hover:cursor-pointer" />
                 </div>
               </CardFooter>
             </Card>

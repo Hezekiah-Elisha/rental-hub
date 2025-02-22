@@ -1,3 +1,4 @@
+// "use server";
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
