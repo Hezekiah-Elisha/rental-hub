@@ -8,12 +8,12 @@ export default function layout({ children }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <main className="w-full">
         <div className="flex flex-row justify-start align-middle items-center gap-20">
           <SidebarTrigger />
           <Breadcrumbs />
         </div>
-        <div className="p-10">{children}</div>
+        <div className="p-10 w-full">{children}</div>
       </main>
     </SidebarProvider>
   );

@@ -11,28 +11,29 @@ import {
 } from "@/components/ui/sidebar";
 import {
   HomeIcon,
-  InboxIcon,
+  TagIcon,
   CalendarIcon,
   SearchIcon,
   SettingsIcon,
+  GaugeIcon
 } from "lucide-react";
 
 // Menu items.
 const items = [
   {
-    title: "Home",
-    url: "#",
+    title: "Dashboard Page",
+    url: "/dashboard",
+    icon: GaugeIcon,
+  },
+  {
+    title: "Houses",
+    url: "/dashboard/properties",
     icon: HomeIcon,
   },
   {
-    title: "Inbox",
-    url: "#",
-    icon: InboxIcon,
-  },
-  {
-    title: "Calendar",
-    url: "#",
-    icon: CalendarIcon,
+    title: "Categories",
+    url: "/dashboard/categories",
+    icon: TagIcon,
   },
   {
     title: "Search",

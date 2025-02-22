@@ -5,6 +5,15 @@ import { useAuth } from "@/lib/auth-context";
 import { Button } from "./ui/button";
 import { deleteAllCookies } from "@/app/lib/session";
 import { useRouter } from "next/navigation";
+import {
+  Menubar,
+  MenubarContent,
+  MenubarItem,
+  MenubarMenu,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarTrigger,
+} from "./ui/menubar";
 
 export default function Header() {
   const { access_token, logout } = useAuth(); // Use logout from context
@@ -25,7 +34,23 @@ export default function Header() {
         <DarkModeSwitch />
         {access_token ? (
           <>
-            <Link href="/dashboard">Dashboard</Link>
+            <Menubar>
+              <MenubarMenu>
+                <MenubarTrigger>Profile</MenubarTrigger>
+                <MenubarContent>
+                  <MenubarItem>
+                    New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+                  </MenubarItem>
+                  <MenubarItem>
+                    <Link href="/dashboard">Dashboard</Link>
+                  </MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Share</MenubarItem>
+                  <MenubarSeparator />
+                  <MenubarItem>Print</MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
             <Button
               variant="outline"
               onClick={handleLogout}

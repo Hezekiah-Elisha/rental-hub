@@ -26,6 +26,8 @@ export async function createCategory(state, formData) {
   if (!validatedFields.success) {
     return {
       errors: validatedFields.error.flatten().fieldErrors,
+
+      message: "Missing Fields. Failed to create category.",
     };
   }
 
@@ -40,7 +42,7 @@ export async function createCategory(state, formData) {
   instance
     .post("/categories/", validatedFields.data, config)
     .then((response) => {
-      console.log(response);
+      redirect("/dashboard/categories");
     })
     .catch((error) => {
       console.log(error.Authorization);
@@ -53,6 +55,4 @@ export async function createCategory(state, formData) {
   //     },
   //   };
   // }
-
-  redirect("/dashboard/categories");
 }
