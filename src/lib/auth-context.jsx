@@ -5,21 +5,21 @@ import { createContext, useContext, useEffect, useState } from "react";
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [access_token, setAccessToken] = useState(null);
-  // const [loading, setLoading] = useState(true);
+  const [access_token, setAccessToken] = useState(null); // Fixed typo
 
+  // Check cookie on mount
   useEffect(() => {
     getCookie("access_token")
-      .then((access_token) => {
-        setAccessToken(access_token || null);
+      .then((token) => {
+        setAccessToken(token || null);
       })
       .catch((error) => {
-        console.error(error);
+        console.error("Failed to get access_token:", error);
         setAccessToken(null);
       });
-    // setLoading(false);
   }, []);
 
+  // Function to manually refresh token from cookie
   const refreshToken = () => {
     getCookie("access_token")
       .then((token) => {
@@ -30,6 +30,8 @@ export function AuthProvider({ children }) {
         setAccessToken(null);
       });
   };
+
+  // Logout clears the state (cookie handled elsewhere)
   const logout = () => {
     setAccessToken(null);
   };

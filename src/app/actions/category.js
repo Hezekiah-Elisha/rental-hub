@@ -11,8 +11,8 @@ export async function createCategory(state, formData) {
   });
 
   const access_token = await getCookie("access_token")
-    .then((cookie) => {
-      return cookie;
+    .then((access_token) => {
+      return access_token;
     })
     .catch((error) => {
       return {
@@ -28,10 +28,6 @@ export async function createCategory(state, formData) {
       errors: validatedFields.error.flatten().fieldErrors,
     };
   }
-
-  console.log(validatedFields.data);
-  console.log(cookie.mySession);
-  
 
   const config = {
     headers: {

@@ -1,9 +1,14 @@
 "use client";
-import { isLoggedIn } from "@/app/actions/auth";
 import { Card } from "@/components/ui/card";
-import { redirect } from "next/navigation";
+import { useAuth } from "@/lib/auth-context";
+import { useEffect } from "react";
 
 export default function DashboardHome() {
+  const { refreshToken } = useAuth();
+
+  useEffect(() => {
+    refreshToken(); // Sync context with cookie after login redirect
+  }, []);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex flex-row justify-between align-middle">

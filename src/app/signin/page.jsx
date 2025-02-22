@@ -11,7 +11,7 @@ export default function Signin() {
   const [state, action, isPending] = useActionState(
     signin,
     undefined,
-    "/dashboard"
+    "/dashboard/home"
   );
   const { refreshToken } = useAuth();
 

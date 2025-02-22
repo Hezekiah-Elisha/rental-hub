@@ -1,6 +1,8 @@
 "use client";
 import { useActionState } from "react";
 import { createCategory } from "@/app/actions/category";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Page() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
@@ -8,32 +10,29 @@ export default function Page() {
     <div>
       <form
         action={action}
-        className="flex flex-col gap-4 align-middle justify-center items-center w-full"
+        className="flex flex-col gap-4 align-middle justify-center items-startr w-full md:w-1/2"
       >
         <label htmlFor="name">Name of Category</label>
-        <input
+        <Input
           type="text"
           id="name"
           name="name"
           placeholder="Name"
-          className="px-5 py-2 bg-slate-400 rounded-full"
+          className=""
         />
         {state?.errors?.name && <p>{state.errors.name}</p>}
         <label htmlFor="description">Description</label>
-        <input
+        <Input
           type="text"
           id="description"
           name="description"
           placeholder="Description"
-          className="px-5 py-2 bg-slate-400 rounded-full"
+          className=""
         />
         {state?.errors?.description && <p>{state.errors.description}</p>}
-        <button
-          type="submit"
-          className="bg-blue-500 rounded-full px-4 py-2 text-white"
-        >
+        <Button type="submit" className="">
           {isPending ? "Creating..." : "Create"}
-        </button>
+        </Button>
       </form>
     </div>
   );
