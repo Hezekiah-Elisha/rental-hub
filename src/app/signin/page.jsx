@@ -5,6 +5,7 @@ import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
+import { Input } from "@/components/ui/input";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -35,7 +36,7 @@ export default function Signin() {
           className="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
         >
           <label htmlFor="email">Email</label>
-          <input
+          <Input
             type="text"
             placeholder="email"
             id="email"
@@ -45,7 +46,7 @@ export default function Signin() {
           {state?.errors?.email && <p>{state.errors.email}</p>}
           <label htmlFor="password">Password</label>
           <div className="relative flex flex-row w-full">
-            <input
+            <Input
               type={showPassword ? "text" : "password"}
               placeholder="Password"
               id="password"
