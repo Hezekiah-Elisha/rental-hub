@@ -9,8 +9,8 @@ export default function Home() {
       <section className="w-full">
         <Hero />
         <RecentListings />
+        <Footer />
       </section>
-      <Footer />
     </>
   );
 }

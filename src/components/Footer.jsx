@@ -34,6 +34,16 @@ export default function Footer() {
           </li>
         </ul>
       </div>
+      <div className="text-center dark:text-black text-black">
+        Built with ❤️ by{" "}
+        <a
+          href="https://linkedin.com/in/hezekiahelisha"
+          target="_blank"
+          class="hover:underline"
+        >
+          Hezekiah Elisha
+        </a>
+      </div>
     </footer>
   );
 }
