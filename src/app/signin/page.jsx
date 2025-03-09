@@ -193,7 +193,6 @@ export default function Signin() {
                   Forgot your password?
                 </a>
               </p>
-            
 
               <div className="col-span-6">
                 <p className="text-sm text-primary">
@@ -211,7 +210,9 @@ export default function Signin() {
               </div>
 
               <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <Button className="">Sign In</Button>
+                <Button className="" disabled={isPending}>
+                  {isPending ? "Loading..." : "Sign in"}
+                </Button>
 
                 <p className="mt-4 text-sm text-primary sm:mt-0">
                   Already have an account?{" "}
