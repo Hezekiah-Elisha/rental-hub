@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -130,15 +131,14 @@ export default function Signup() {
             </a>
 
             <h1 className="mt-6 text-primary text-2xl font-bold sm:text-3xl md:text-4xl">
-              The Rental Hub Ke
+              Rental Hub Ke
             </h1>
 
             <p className="mt-4 leading-relaxed text-primary">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              nam dolorum aliquam, quibusdam aperiam voluptatum.
+              Sign up to access your account and manage your listings.
             </p>
 
-            <form action="#" className="mt-8 grid grid-cols-6 gap-6">
+            <form action={action} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">
                 <label for="FirstName" className="block text-sm font-medium">
                   First Name
@@ -220,14 +220,14 @@ export default function Signup() {
               <div className="col-span-6">
                 <p className="text-sm text-primary">
                   By creating an account, you agree to our
-                  <a href="#" className="text-primary/80 underline">
+                  <Link href="#" className="text-primary/80 underline">
                     {" "}
                     terms and conditions{" "}
-                  </a>
+                  </Link>
                   and
-                  <a href="#" className="text-primary/80 underline">
+                  <Link href="#" className="text-primary/80 underline">
                     privacy policy
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>
@@ -237,9 +237,9 @@ export default function Signup() {
 
                 <p className="mt-4 text-sm text-primary sm:mt-0">
                   Already have an account?{" "}
-                  <a href="#" className="text-primary/80 underline">
+                  <Link href="/signin" className="text-primary/80 underline">
                     Log in
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>
