@@ -3,14 +3,6 @@ import { useActionState, useEffect, useState } from "react";
 import { instance } from "@/api";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -24,6 +16,17 @@ import { Label } from "@radix-ui/react-menubar";
 import { createCategory } from "@/app/actions/category";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 
 export default function CategoriesPage() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
@@ -38,7 +41,7 @@ export default function CategoriesPage() {
   const fetchCategories = async () => {
     const response = await instance.get("/categories");
     setCategories(response.data);
-  }
+  };
 
   return (
     <div className="w-full">
@@ -100,40 +103,61 @@ export default function CategoriesPage() {
         {categories.length === 0 ? (
           <div>No categories available.</div>
         ) : (
-          categories.map((category) => (
-            <Card key={category.id} className="w-1/4">
-              <CardHeader>
-                <CardTitle>House Name</CardTitle>
-                <CardDescription>{category.name}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <p>{category.description}</p>
-              </CardContent>
-              <CardFooter>
-                <div className="w-full flex flex-row justify-start align-middle text-sm gap-2">
-                  <TrashIcon className="size-4 hover:cursor-pointer" />
-                  <PencilIcon className="size-4 hover:cursor-pointer" />
-                </div>
-              </CardFooter>
-            </Card>
-
-            // <div
-            //   key={category.id}
-            //   className="flex flex-col justify-between align-middle bg-blue-950 text-white p-2 rounded-lg w-1/4 gap-4"
-            // >
-            //   <h2 className="text-white text-2xl font-bold capitalize">
-            //     {category.name}
-            //   </h2>
-            //   <p className="text-sm">{category.description}</p>
-            //   <div className="flex flex-row justify-end align-middle">
-            //     <div className="w-full flex flex-row justify-end align-middle text-sm gap-2">
-            //       <TrashIcon className="size-4 text-red-400 hover:cursor-pointer" />
-            //       <PencilIcon className="size-4 text-green-400 hover:cursor-pointer" />
-            //     </div>
-            //   </div>
-            // </div>
-          ))
+          <Table>
+            <TableCaption>A list of your Categories</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="">Name</TableHead>
+                <TableHead>Description</TableHead>
+                <TableHead className="text-right">Actions</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {categories.map((category) => (
+                <TableRow key={category.id}>
+                  <TableCell className="font-medium">{category.name}</TableCell>
+                  <TableCell>{category.description}</TableCell>
+                  <TableCell className="text-right space-x-1">
+                    <Button>Edit</Button>
+                    <Button>Delete</Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+            <TableFooter>
+              <TableRow>
+                <TableCell colSpan={3}>Total</TableCell>
+                <TableCell className="text-right">
+                  {categories.length}
+                </TableCell>
+              </TableRow>
+            </TableFooter>
+          </Table>
         )}
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious href="#" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink href="#">3</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext href="#" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       </div>
     </div>
   );

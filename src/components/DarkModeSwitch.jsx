@@ -20,11 +20,11 @@ export default function DarkModeSwitch() {
             mounted && (
                 currentTheme === 'dark' ? (
                     <button className='p-2 rounded-md' onClick={() => setTheme('light')}>
-                        <SunIcon className='size-6' />
+                        <SunIcon className='size-6 text-primary' />
                     </button>
                 ) : (
                     <button className='p-2 rounded-md' onClick={() => setTheme('dark')}>
-                        <MoonIcon className='size-6' />
+                        <MoonIcon className='size-6 text-primary' />
                     </button>
                 )
             )

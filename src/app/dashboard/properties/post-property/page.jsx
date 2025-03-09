@@ -1,6 +1,18 @@
 "use client";
 import { instance } from "@/api";
 import { createProperty } from "@/app/actions/property";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
 
@@ -58,87 +70,91 @@ export default function PostProperty() {
             <label htmlFor="title" className="text-black dark:text-white">
               Title
             </label>
-            <input
+            <Input
               type="text"
               id="title"
               name="title"
               placeholder="Title"
-              className="px-5 py-2 bg-slate-400 rounded-full placeholder:text-blue"
+              className=""
             />
             {state?.errors?.title && <p>{state.errors.title}</p>}
             <label htmlFor="description" className="text-black dark:text-white">
               Description
             </label>
-            <input
+            <Input
               type="text"
               id="description"
               name="description"
               placeholder="Description"
-              className="px-5 py-2 bg-slate-400 rounded-full"
+              className=""
             />
             {state?.errors?.description && <p>{state.errors.description}</p>}
             <label htmlFor="category" className="text-black dark:text-white">
               Choose Category
             </label>
-            <select
-              name="category_id"
-              id="category_id"
-              className="px-5 py-2 bg-slate-400 rounded-full"
-            >
-              <option value="">House</option>
-              {categories.map((category) => (
-                <option key={category.id} value={category.id}>
-                  {category.name}
-                </option>
-              ))}
-            </select>
+
+            <Select className="w-full" name="category_id" id="category_id">
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a House" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>House Category</SelectLabel>
+                  {categories.map((category) => (
+                    <SelectItem key={category.id} value={category.id}>
+                      {category.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
             {state?.errors?.category_id && <p>{state.errors.category_id}</p>}
             <label htmlFor="location" className="text-black dark:text-white">
               Location
             </label>
-            <input
+            <Input
               type="text"
               id="location"
               name="location"
               placeholder="Location"
-              className="px-5 py-2 bg-slate-400 rounded-full"
+              className=""
             />
             {state?.errors?.location && <p>{state.errors.location}</p>}
             <label htmlFor="price" className="text-black dark:text-white">
               Price
             </label>
-            <input
+            <Input
               type="text"
               id="price"
               name="price"
               placeholder="Price"
-              className="px-5 py-2 bg-slate-400 rounded-full"
+              className=""
             />
             {state?.errors?.price && <p>{state.errors.price}</p>}
 
             <label htmlFor="features" className="text-black dark:text-white">
               Features
             </label>
-            <textarea
+            <Textarea
               name="features"
               id="features"
               cols="30"
               rows="10"
               placeholder="Features"
-              className="px-5 py-2 bg-slate-400 rounded-3xl"
-            ></textarea>
+              className=""
+            ></Textarea>
             {state?.errors?.features && <p>{state.errors.features}</p>}
             <label htmlFor="tags" className="text-black dark:text-white">
               Tags
             </label>
-            <input
+            <Input
               type="text"
               name="tags"
               id="tags"
               placeholder="Tags"
               onChange={handleInputChange}
               onBlur={handleInputBlur}
-              className="px-5 py-2 bg-slate-400 rounded-full"
+              className=""
             />
             <div className="flex flex-row gap-3">
               {tags.map((tag, index) => (
@@ -159,7 +175,7 @@ export default function PostProperty() {
             </div>
           </div>
           <div className="w-1/2">
-            <input
+            <Input
               type="file"
               name="image"
               id="image"
@@ -187,12 +203,12 @@ export default function PostProperty() {
             )}
           </div>
         </div>
-        <button
+        <Button
           type="submit"
-          className="px-5 py-2 bg-blue-950 text-white rounded-full"
+          className=""
         >
           {isPending ? "Loading..." : "Post Property for review"}
-        </button>
+        </Button>
       </form>
     </div>
   );
