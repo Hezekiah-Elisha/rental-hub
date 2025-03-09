@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import Listing from "@/components/Listing";
 import { instance } from "@/api";
-import LoadingAnimation from "./LoadingAnimation";
+import LoadingAnimation2 from "./LoadingAnimation2";
 
 export default function RecentListings() {
   const [listings, setListings] = useState([]);
@@ -28,7 +28,7 @@ export default function RecentListings() {
         {listings.length === 0 && <p>No listings found</p>}
         {loading && (
           <div className="w-full flex justify-center items-center align-middle">
-            <LoadingAnimation />
+            <LoadingAnimation2 />
           </div>
         )}
         {listings.map((listing) => (

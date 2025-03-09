@@ -14,8 +14,8 @@ import {
 export default function SideNav() {
   // <li className={router.asPath == "/#about" ? "active" : ""}>
   return (
-    <div className="h-screen flex flex-col justify-between text-black dark:text-white backdrop:blur-3xl p-2">
-      <div className="space-y-4 rounded-full bg-blue-900/25 text-white dark:text-white">
+    <div className="h-screen flex flex-col justify-between backdrop:blur-3xl p-2">
+      <div className="space-y-4 rounded-full">
         <div className="flex flex-col gap-4">
           <SideNavItem
             destination="/dashboard"
