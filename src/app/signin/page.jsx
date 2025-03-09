@@ -6,6 +6,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -41,7 +42,7 @@ export default function Signin() {
             placeholder="email"
             id="email"
             name="email"
-            className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
+            className=""
           />
           {state?.errors?.email && <p>{state.errors.email}</p>}
           <label htmlFor="password">Password</label>
@@ -52,7 +53,7 @@ export default function Signin() {
               id="password"
               name="password"
               // onChange={handleChange}
-              className="w-full p-5 rounded-full outline-none placeholder:text-gray-900 dark:placeholder:text-blue-50 bg-blue-100 dark:bg-slate-200/20"
+              className=""
             />
             <button
               type="button"
@@ -77,15 +78,15 @@ export default function Signin() {
             </div>
           )}
 
-          <button
+          <Button
             type="submit"
             onClick={() => {
               refreshToken();
             }}
-            className="w-full clear-start p-5 bg-blue-900 dark:bg-blue-800 rounded-full text-white uppercase"
+            className=""
           >
             {isPending ? "Loading..." : "Sign in"}
-          </button>
+          </Button>
           <div className="flex flex-col justify-end align-middle items-end w-full">
             <Link href="/signup" className="text-black dark:text-white">
               Don&apos;t have an account? Sign up
