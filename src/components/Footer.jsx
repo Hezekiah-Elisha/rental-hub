@@ -3,7 +3,7 @@ import React from "react";
 export default function Footer() {
   return (
     <footer className="rounded-lg shadow-sm m-4 bg-secondary">
-      <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
+      <div className="w-full mx-auto max-w-(--breakpoint-xl) p-4 md:flex md:items-center md:justify-between">
         <span className="text-sm  sm:text-center ">
           &copy; 2025{" "}
           <a href="https://rental.hub.ke" className="hover:underline">

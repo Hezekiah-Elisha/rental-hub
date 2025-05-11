@@ -6,7 +6,7 @@ export default function LoadingAnimation2() {
       <div className="absolute inset-0 rounded-xl bg-primary/20 blur-xl animate-pulse"></div>
 
       <div className="w-full h-full relative flex items-center justify-center">
-        <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-primary via-secondary to-accent animate-spin blur-sm"></div>
+        <div className="absolute inset-0 rounded-xl bg-linear-to-r from-primary via-secondary to-accent animate-spin blur-sm"></div>
 
         <div className="absolute inset-1 bg-background rounded-lg flex items-center justify-center overflow-hidden">
           <div className="flex gap-1 items-center">
@@ -16,7 +16,7 @@ export default function LoadingAnimation2() {
             <div className="w-1.5 h-12 bg-muted rounded-full animate-[bounce_1s_ease-in-out_infinite_0.3s]"></div>
           </div>
 
-          <div className="absolute inset-0 bg-gradient-to-t from-transparent via-primary/10 to-transparent animate-pulse"></div>
+          <div className="absolute inset-0 bg-linear-to-t from-transparent via-primary/10 to-transparent animate-pulse"></div>
         </div>
       </div>
 
