@@ -4,6 +4,7 @@ import Providers from "./Providers";
 import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/lib/auth-context";
+import { Toaster } from "@mosespace/toast";
 ``
 export const metadata = {
   title: "Rental Hub",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             {children}
+            <Toaster/>
           </ThemeProvider>
         </AuthProvider>
       </body>

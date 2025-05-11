@@ -42,10 +42,19 @@ export async function createCategory(state, formData) {
   instance
     .post("/categories/", validatedFields.data, config)
     .then((response) => {
-      redirect("/dashboard/categories");
+      return {
+        success: true,
+        message: "Category created successfully",
+      };
     })
     .catch((error) => {
-      console.log(error.Authorization);
+      return {
+        errors: {
+          success: false,
+          name: "Category name already exists",
+        },
+      };
+      // console.log(error.Authorization);
     });
 
   // if (response.status !== 201) {
