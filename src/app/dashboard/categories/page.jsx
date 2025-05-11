@@ -33,7 +33,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { toast } from "@mosespace/toast";
 
 export default function CategoriesPage() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
@@ -49,15 +48,6 @@ export default function CategoriesPage() {
     });
   }, []);
 
-  useEffect(() => {
-    if (state?.success) {
-      toast.success(state.message);
-      fetchCategories();
-    }
-    if (state?.errors) {
-      toast.error(state.errors.name);
-    }
-  }, [state]);
 
   const fetchCategories = async () => {
     const response = await instance.get("/categories");

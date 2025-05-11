@@ -1,11 +1,7 @@
-import localFont from "next/font/local";
 import "./globals.css";
-import Providers from "./Providers";
-import Header from "@/components/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/lib/auth-context";
-import { Toaster } from "@mosespace/toast";
-``
+
 export const metadata = {
   title: "Rental Hub",
   description: "Your nearest Rental partner",
@@ -14,9 +10,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`antialiased`}
-      >
+      <body className={`antialiased`}>
         <AuthProvider>
           <ThemeProvider
             attribute="class"
@@ -25,7 +19,6 @@ export default function RootLayout({ children }) {
             disableTransitionOnChange
           >
             {children}
-            <Toaster/>
           </ThemeProvider>
         </AuthProvider>
       </body>
