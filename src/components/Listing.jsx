@@ -24,7 +24,7 @@ export default function Listing({ listing }) {
             height={900}
             className="size-96 w-full object-cover rounded-lg"
           />
-          <CardTitle>{listing.title}</CardTitle>
+          <CardTitle className="">{listing.title}</CardTitle>
           <CardDescription className="">
             3 Bedrooms, 2 Bathrooms
           </CardDescription>
