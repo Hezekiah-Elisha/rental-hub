@@ -3,6 +3,7 @@ import { instance } from "@/api";
 import { createProperty } from "@/app/actions/property";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -15,6 +16,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import Image from "next/image";
 import { useActionState, useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function PostProperty() {
   const [state, action, isPending] = useActionState(createProperty, undefined);
@@ -22,6 +24,13 @@ export default function PostProperty() {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [inputValue, setInputValue] = useState("");
+
+  if (state?.success) {
+    toast.success("Property posted successfully!");
+    setTimeout(() => {
+      window.location.href = "/dashboard/properties";
+    }, 2000);
+  }
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -56,31 +65,31 @@ export default function PostProperty() {
       setSelectedImage(null);
     }
     getCategories();
-  }, []);
+  }, [state]);
 
   return (
     <div>
       <form
         action={action}
-        className="flex flex-col gap-4 align-middle justify-center items-center"
-        encType="multipart/form-data"
+        className="flex flex-col gap-4 justify-center align-middle w-full text-black dark:text-white"
+        // encType="multipart/form-data"
       >
         <div className="flex flex-row justify-between align-middle gap-4">
           <div className="flex flex-col justify-center gap-4 w-1/2 text-black">
-            <label htmlFor="title" className="text-black dark:text-white">
+            <Label htmlFor="title" className="text-black dark:text-white">
               Title
-            </label>
+            </Label>
             <Input
               type="text"
               id="title"
               name="title"
               placeholder="Title"
-              className=""
+              className="text-black dark:text-white"
             />
             {state?.errors?.title && <p>{state.errors.title}</p>}
-            <label htmlFor="description" className="text-black dark:text-white">
+            <Label htmlFor="description" className="text-black dark:text-white">
               Description
-            </label>
+            </Label>
             <Input
               type="text"
               id="description"
@@ -89,9 +98,9 @@ export default function PostProperty() {
               className=""
             />
             {state?.errors?.description && <p>{state.errors.description}</p>}
-            <label htmlFor="category" className="text-black dark:text-white">
+            <Label htmlFor="category" className="text-black dark:text-white">
               Choose Category
-            </label>
+            </Label>
 
             <Select className="w-full" name="category_id" id="category_id">
               <SelectTrigger className="w-full">
@@ -109,9 +118,9 @@ export default function PostProperty() {
               </SelectContent>
             </Select>
             {state?.errors?.category_id && <p>{state.errors.category_id}</p>}
-            <label htmlFor="location" className="text-black dark:text-white">
+            <Label htmlFor="location" className="text-black dark:text-white">
               Location
-            </label>
+            </Label>
             <Input
               type="text"
               id="location"
@@ -120,9 +129,9 @@ export default function PostProperty() {
               className=""
             />
             {state?.errors?.location && <p>{state.errors.location}</p>}
-            <label htmlFor="price" className="text-black dark:text-white">
+            <Label htmlFor="price" className="text-black dark:text-white">
               Price
-            </label>
+            </Label>
             <Input
               type="text"
               id="price"
@@ -132,21 +141,21 @@ export default function PostProperty() {
             />
             {state?.errors?.price && <p>{state.errors.price}</p>}
 
-            <label htmlFor="features" className="text-black dark:text-white">
+            <Label htmlFor="features" className="text-black dark:text-white">
               Features
-            </label>
+            </Label>
             <Textarea
               name="features"
               id="features"
               cols="30"
               rows="10"
               placeholder="Features"
-              className=""
+              className="text-black dark:text-white"
             ></Textarea>
             {state?.errors?.features && <p>{state.errors.features}</p>}
-            <label htmlFor="tags" className="text-black dark:text-white">
+            <Label htmlFor="tags" className="text-black dark:text-white">
               Tags
-            </label>
+            </Label>
             <Input
               type="text"
               name="tags"
@@ -163,18 +172,23 @@ export default function PostProperty() {
                   className="flex items-center bg-blue-500 text-white px-3 py-1 rounded-full"
                 >
                   {tag}
-                  <button
+                  <Button
                     type="button"
-                    className="ml-2 text-white"
+                    className="px-2"
                     onClick={() => handleTagRemove(index)}
                   >
                     &times;
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
           </div>
           <div className="w-1/2">
+            <div>
+              <Label htmlFor="image" className="text-black dark:text-white">
+                Property Image
+              </Label>
+            </div>
             <Input
               type="file"
               name="image"
@@ -188,25 +202,22 @@ export default function PostProperty() {
                 <Image
                   src={selectedImage}
                   alt="Selected"
-                  className="size-full object-cover mt-4 rounded-full"
+                  className="size-full object-cover mt-4"
                   width={2000}
                   height={2000}
                 />
-                <button
+                <Button
                   type="button"
                   onClick={() => setSelectedImage(null)}
                   className="mt-2 px-4 py-2 bg-red-500 text-white rounded-full"
                 >
                   Remove
-                </button>
+                </Button>
               </div>
             )}
           </div>
         </div>
-        <Button
-          type="submit"
-          className=""
-        >
+        <Button type="submit" className="">
           {isPending ? "Loading..." : "Post Property for review"}
         </Button>
       </form>

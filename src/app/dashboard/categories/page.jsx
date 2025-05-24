@@ -1,7 +1,6 @@
 "use client";
 import { useActionState, useEffect, useState } from "react";
 import { instance } from "@/api";
-import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +11,6 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@radix-ui/react-menubar";
 import { createCategory } from "@/app/actions/category";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
@@ -26,10 +24,22 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
 export default function CategoriesPage() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
+  const [totalPages, setTotalPages] = useState(0);
+
   const [categories, setCategories] = useState([]);
   useEffect(() => {
     instance.get("/categories").then((response) => {
@@ -37,6 +47,7 @@ export default function CategoriesPage() {
       console.log(response.data);
     });
   }, []);
+
 
   const fetchCategories = async () => {
     const response = await instance.get("/categories");
@@ -52,9 +63,10 @@ export default function CategoriesPage() {
       /> */}
       <div className="flex flex-row justify-between align-middle items-center">
         <h1 className="text-2xl font-bold">Categories</h1>
+        {/* Create Category Dialog */}
         <Dialog>
-          <DialogTrigger>
-            <Button>Create Category</Button>
+          <DialogTrigger className="hover:cursor-pointer hover:bg-accent p-4 rounded-xl">
+            Create Category
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -62,18 +74,18 @@ export default function CategoriesPage() {
               <DialogDescription>
                 <form action={action} className="space-y-4">
                   <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="name">
-                      <h2>Name</h2>
-                    </Label>
+                    <label htmlFor="name">
+                      <p>Name</p>
+                    </label>
                     <Input label="Name" type="text" name="name" />
                     <p className="text-red-500">
                       {state?.errors?.name && <p>{state.errors.name}</p>}
                     </p>
                   </div>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <Label htmlFor="description">
+                    <label htmlFor="description">
                       <h2>Description</h2>
-                    </Label>
+                    </label>
                     <Input label="Description" type="text" name="description" />
                     <p className="text-red-500">
                       {state?.errors?.description && (

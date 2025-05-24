@@ -1,11 +1,7 @@
-// "use server";
+"use server";
 import { SignupFormSchema, SigninFormSchema } from "@/app/lib/definitions";
 import { instance } from "@/api";
-import { redirect } from "next/navigation";
 import { createCookie, deleteAllCookies } from "../lib/session";
-
-// import { deleteSession } from '@/app/lib/session'
-// import { createSession } from "@/app/lib/session";
 
 export async function signup(state, formData) {
   //validate form fields
@@ -55,31 +51,27 @@ export async function signin(state, formData) {
     };
   }
   const { email, password } = validatedFields.data;
-
-  const response = await instance
-    .post("/auth/login", {
-      email: email,
-      password: password,
-    })
-    .then((response) => {
-      createCookie("access_token", response.data.access_token);
-      createCookie("refresh_token", response.data.refresh_token);
-      createCookie("user", response.data.user);
-      // redirect("/dashboard");
-      return response;
-    })
-    .catch((error) => {
-      // console.log(error);
-      return {
-        errors: {
-          email: "Invalid email or password",
-        },
-      };
+  
+  try {
+    const response = await instance.post("/auth/login", {
+      email,
+      password,
     });
-    if (response.status === 200){
-      redirect("/dashboard");
-    }
-  // redirect("/dashboard");
+    await createCookie("access_token", response.data.access_token);
+    await createCookie("refresh_token", response.data.refresh_token);
+    await createCookie("user", JSON.stringify(response.data.user));
+    return {
+      success: true,
+      status: response.status,
+      message: "Login successful",
+    };
+  } catch (error) {
+    return {
+      errors: {
+        email: "Invalid email or password",
+      },
+    };
+  }
 }
 
 export async function logout() {

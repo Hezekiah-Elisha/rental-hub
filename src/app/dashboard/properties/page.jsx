@@ -5,14 +5,6 @@ import { instance } from "@/api";
 import Image from "next/image";
 import ProcessTags from "@/utils/ProcessTags";
 import TagPills from "@/components/TagPill";
-import { MapPinIcon } from "@heroicons/react/24/solid";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -28,17 +20,22 @@ import {
 export default function Page() {
   const [properties, setProperties] = useState([]);
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    setLoading(true);
     instance.get("/listings").then((response) => {
       setProperties(response.data);
       console.log(response.data);
+      setLoading(false);
     });
     instance.get("/categories").then((response) => {
       setCategories(response.data);
       console.log(response.data);
+      setLoading(false);
     });
   }, []);
+
   return (
     <div>
       <div className="flex flex-row justify-between align-middle">
@@ -70,6 +67,11 @@ export default function Page() {
               </TableRow>
             </TableHeader>
             <TableBody>
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={6}>Loading...</TableCell>
+                </TableRow>
+              )}
               {properties.map((property) => (
                 <TableRow key={property.id}>
                   <TableCell className="font-medium">
@@ -103,7 +105,9 @@ export default function Page() {
             <TableFooter>
               <TableRow>
                 <TableCell colSpan={6}>Total</TableCell>
-                <TableCell className="text-right">{properties.length}</TableCell>
+                <TableCell className="text-right">
+                  {properties.length}
+                </TableCell>
               </TableRow>
             </TableFooter>
           </Table>

@@ -1,5 +1,4 @@
 "use client";
-import DarkModeSwitch from "./DarkModeSwitch";
 import Link from "next/link";
 import { useAuth } from "@/lib/auth-context";
 import { Button } from "./ui/button";
@@ -14,6 +13,7 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "./ui/menubar";
+import { ModeToggle } from "./ModeToggle";
 
 export default function Header() {
   const { access_token, logout } = useAuth(); // Use logout from context
@@ -31,7 +31,7 @@ export default function Header() {
         <h1 className="text-3xl">Rental Hub</h1>
       </Link>
       <div className="flex flex-row align-middle justify-center items-center gap-4">
-        <DarkModeSwitch />
+        <ModeToggle />
         {access_token ? (
           <>
             <Menubar>

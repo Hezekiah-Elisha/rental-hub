@@ -1,14 +1,12 @@
 "use client";
-import { useState, useActionState } from "react";
+import { useState, useActionState, useEffect } from "react";
 import { signin } from "@/app/actions/auth";
-import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useAuth } from "@/lib/auth-context";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
-import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -17,104 +15,20 @@ export default function Signin() {
     undefined,
     "/dashboard/home"
   );
-  const { refreshToken } = useAuth();
 
   // is state has response of status 200, redirect to dashboard
-  if (state?.status === 200) {
-    redirect("/dashboard");
-  }
+  useEffect(() => {
+    if (state?.success) {
+      toast.success("Signin successful! Redirecting to dashboard...");
+      redirect("/dashboard");
+    }
+  }, [state]);
 
   const handleShowPassword = () => {
     setShowPassword(!showPassword);
   };
 
   return (
-    // <div classNameName="flex flex-row min-h-screen">
-    //   <div classNameName="flex flex-col justify-center align-middle items-center gap-2 mx-auto w-full md:w-1/2 space-y-4">
-    //     <div classNameName="w-full px-4 md:px-20">
-    //       <span classNameName="text-3xl">Hello, We are happy to see you here</span>
-    //     </div>
-    //     <form
-    //       action={action}
-    //       classNameName="flex flex-col justify-center align-middle gap-4 w-full px-4 md:px-20"
-    //     >
-    //       <label htmlFor="email">Email</label>
-    //       <Input
-    //         type="text"
-    //         placeholder="email"
-    //         id="email"
-    //         name="email"
-    //         classNameName=""
-    //       />
-    //       {state?.errors?.email && <p>{state.errors.email}</p>}
-    //       <label htmlFor="password">Password</label>
-    //       <div classNameName="relative flex flex-row w-full">
-    //         <Input
-    //           type={showPassword ? "text" : "password"}
-    //           placeholder="Password"
-    //           id="password"
-    //           name="password"
-    //           // onChange={handleChange}
-    //           classNameName=""
-    //         />
-    //         <button
-    //           type="button"
-    //           onClick={handleShowPassword}
-    //           classNameName="absolute right-4 top-1/2 transform -translate-y-1/2"
-    //         >
-    //           {showPassword ? (
-    //             <EyeSlashIcon classNameName="size-6 text-blue-800" />
-    //           ) : (
-    //             <EyeIcon classNameName="size-6 text-blue-800" />
-    //           )}
-    //         </button>
-    //       </div>
-    //       {state?.errors?.password && (
-    //         <div>
-    //           <p>Password must:</p>
-    //           <ul>
-    //             {state.errors.password.map((error) => (
-    //               <li key={error}>- {error}</li>
-    //             ))}
-    //           </ul>
-    //         </div>
-    //       )}
-
-    //       <Button
-    //         type="submit"
-    //         onClick={() => {
-    //           refreshToken();
-    //         }}
-    //         classNameName=""
-    //       >
-    //         {isPending ? "Loading..." : "Sign in"}
-    //       </Button>
-    //       <div classNameName="flex flex-col justify-end align-middle items-end w-full">
-    //         <Link href="/signup" classNameName="text-black dark:text-white">
-    //           Don&apos;t have an account? Sign up
-    //         </Link>
-    //       </div>
-    //     </form>
-    //   </div>
-    //   <div classNameName="relative hidden md:flex justify-center align-middle items-center w-1/2 bg-blue-100 dark:bg-blue-800">
-    //     <video
-    //       autoPlay
-    //       loop
-    //       muted
-    //       classNameName="absolute inset-0 w-full h-full object-cover"
-    //     >
-    //       <source src="new.mp4" type="video/mp4" />
-    //       Your browser does not support the video tag.
-    //     </video>
-    //     <div classNameName="relative z-10 size-full flex flex-col justify-center items-center bg-blue-50/25">
-    //       <h2 classNameName="text-3xl text-white">Rental Hub</h2>
-    //       <a href="https://www.pexels.com/video/a-close-up-of-a-book-with-a-pattern-of-squares-16655796/">
-    //         Video by Pachon in Motion from Pexels
-    //       </a>
-    //     </div>
-    //   </div>
-    // </div>
-
     <section className="">
       <div className="lg:grid lg:min-h-screen lg:grid-cols-12">
         <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">

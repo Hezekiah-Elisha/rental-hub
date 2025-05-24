@@ -1,9 +1,8 @@
 "use server";
-import { redirect } from "next/dist/server/api-utils";
 import { cookies } from "next/headers";
 
 export async function createCookie(key, value) {
-  const expires = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+  const expires = new Date(Date.now() + 1 * 24 * 60 * 60 * 1000); // 1 day
 
   const cookieStore = await cookies();
 

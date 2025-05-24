@@ -8,10 +8,10 @@ import {
   MenubarShortcut,
   MenubarTrigger,
 } from "./ui/menubar";
-import DarkModeSwitch from "./DarkModeSwitch";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/lib/auth-context";
 import { deleteAllCookies } from "@/app/lib/session";
+import { ModeToggle } from "./ModeToggle";
 
 export default function DashboardHeader() {
   const { access_token, logout } = useAuth(); // Use logout from context
@@ -27,8 +27,10 @@ export default function DashboardHeader() {
         <div className="text-2xl font-bold text-primary">
           Rental Hub <span className="text-secondary">Dashboard</span>
         </div>
+        <div className="flex flex-row align-middle justify-center items-center gap-4">
+
+        <ModeToggle />
         <Menubar>
-          <DarkModeSwitch />
 
           <MenubarMenu>
             <MenubarTrigger>Profile</MenubarTrigger>
@@ -60,6 +62,7 @@ export default function DashboardHeader() {
             </MenubarContent>
           </MenubarMenu>
         </Menubar>
+        </div>
       </div>
     </>
   );

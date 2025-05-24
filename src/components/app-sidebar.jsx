@@ -17,6 +17,7 @@ import {
   SettingsIcon,
   GaugeIcon
 } from "lucide-react";
+import Link from "next/link";
 
 // Menu items.
 const items = [
@@ -60,10 +61,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link href={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
