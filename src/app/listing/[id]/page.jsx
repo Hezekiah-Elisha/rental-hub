@@ -6,9 +6,9 @@ import { useParams } from "next/navigation";
 import React from "react";
 
 export default function Page() {
-  const { id } = useParams(); // Destructure the id from params
+  const { id } = useParams();
   return (
-    <div className="container mx-auto flex flex-col gap-4">
+    <div className="container mx-auto flex flex-col gap-4 p-4">
       <Breadcrumbs />
       <div className="flex flex-col md:flex-row align-middle w-full gap-4">
         <div className="w-full md:w-1/2">

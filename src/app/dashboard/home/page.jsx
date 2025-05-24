@@ -10,95 +10,82 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useAuth } from "@/lib/auth-context";
-import { useEffect } from "react";
 
-const invoices = [
+const properties = [
   {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
+    id: 1,
+    name: "Beautiful Family House",
+    views: 120,
+    inquiry: 5,
+    datePosted: "2023-10-01",
+    totalAmount: "$500,000",
   },
   {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
+    id: 2,
+    name: "Modern Apartment",
+    views: 80,
+    inquiry: 3,
+    datePosted: "2023-09-15",
+    totalAmount: "$300,000",
   },
   {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
+    id: 3,
+    name: "Cozy Cottage",
+    views: 60,
+    inquiry: 2,
+    datePosted: "2023-08-20",
   },
   {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
+    id: 4,
+    name: "Spacious Villa",
+    views: 100,
+    inquiry: 4,
+    datePosted: "2023-07-10",
   },
 ];
 
 export default function DashboardHome() {
-  const { refreshToken } = useAuth();
-
-  useEffect(() => {
-    refreshToken(); // Sync context with cookie after login redirect
-  }, []);
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-between align-middle">
-        <Card className="p-2">
-          <h1 className="text-sm font-montserrat">Total Cash</h1>
-          <p className="text-9xl text-center w-full font-poppins">56K</p>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <Card className="p-2 w-full">
+          <h1 className="text-sm font-montserrat text-center md:text-left">
+            Total Listed Houses
+          </h1>
+          <p className="text-9xl text-center w-full font-poppins">6</p>
         </Card>
-        <Card className="p-2">
-          <h1 className="text-sm">Total Number of houses</h1>
-          <p className="text-9xl text-center w-full">17</p>
+        <Card className="p-2 w-full">
+          <h1 className="text-sm text-center md:text-left">
+            Total Views Accross listings
+          </h1>
+          <p className="text-9xl text-center w-full">1.2K</p>
         </Card>
-        <Card className="p-2">
-          <h1 className="text-sm">Subscription Days</h1>
+        <Card className="p-2 w-full">
+          <h1 className="text-sm text-center md:text-left">
+            Inquiries Received
+          </h1>
           <p className="text-9xl text-center w-full">13</p>
         </Card>
       </div>
       <div className="">
         <Table>
-          <TableCaption>A list of your recent invoices.</TableCaption>
+          <TableCaption>A list of your Listed Properties</TableCaption>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Invoice</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
-              <TableHead className="text-right">Amount</TableHead>
+              <TableHead className="">Property</TableHead>
+              <TableHead>views</TableHead>
+              <TableHead>Inquiries</TableHead>
+              <TableHead className="text-right">Posted On</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {invoices.map((invoice) => (
-              <TableRow key={invoice.invoice}>
-                <TableCell className="font-medium">{invoice.invoice}</TableCell>
-                <TableCell>{invoice.paymentStatus}</TableCell>
-                <TableCell>{invoice.paymentMethod}</TableCell>
+            {properties.map((property) => (
+              <TableRow key={property.id}>
+                <TableCell className="font-medium">{property.name}</TableCell>
+                <TableCell>{property.views}</TableCell>
+                <TableCell>{property.inquiry}</TableCell>
                 <TableCell className="text-right">
-                  {invoice.totalAmount}
+                  {property.datePosted}
                 </TableCell>
               </TableRow>
             ))}
@@ -106,7 +93,7 @@ export default function DashboardHome() {
           <TableFooter>
             <TableRow>
               <TableCell colSpan={3}>Total</TableCell>
-              <TableCell className="text-right">$2,500.00</TableCell>
+              <TableCell className="text-right">4</TableCell>
             </TableRow>
           </TableFooter>
         </Table>
