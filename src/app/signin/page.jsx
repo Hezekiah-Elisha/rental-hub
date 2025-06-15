@@ -58,11 +58,11 @@ export default function Signin() {
               </svg>
             </a>
 
-            <h1 className="mt-6 text-primary text-2xl font-bold sm:text-3xl md:text-4xl">
+            <h1 className="mt-6 text-2xl font-bold sm:text-3xl md:text-4xl">
               The Rental Hub Ke
             </h1>
 
-            <p className="mt-4 leading-relaxed text-primary">
+            <p className="mt-4 leading-relaxed">
               We are happy to see you here. Please sign in to continue.
             </p>
 
@@ -103,20 +103,20 @@ export default function Signin() {
 
               <p className="col-span-6 flex items-center justify-between">
                 {state?.errors?.root && <p>{state.errors.root}</p>}
-                <a href="#" className="text-primary">
+                <a href="#" className="">
                   Forgot your password?
                 </a>
               </p>
 
               <div className="col-span-6">
-                <p className="text-sm text-primary">
-                  By creating an account, you agree to our
-                  <a href="#" className="text-primary/80 underline">
+                <p className="text-sm">
+                  By creating an account, you agree to our{" "}
+                  <a href="#" className="underline">
                     {" "}
                     terms and conditions{" "}
                   </a>
-                  and
-                  <a href="#" className="text-primary/80 underline">
+                  and {" "}
+                  <a href="#" className="underline">
                     privacy policy
                   </a>
                   .
@@ -128,9 +128,9 @@ export default function Signin() {
                   {isPending ? "Loading..." : "Sign in"}
                 </Button>
 
-                <p className="mt-4 text-sm text-primary sm:mt-0">
+                <p className="mt-4 text-sm sm:mt-0">
                   Already have an account?{" "}
-                  <Link href="/signup" className="text-primary/80 underline">
+                  <Link href="/signup" className="underline">
                     Signup
                   </Link>
                   .

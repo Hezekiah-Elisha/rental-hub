@@ -3,8 +3,10 @@ import { useActionState, useEffect, useState } from "react";
 import { instance } from "@/api";
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -33,6 +35,8 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 export default function CategoriesPage() {
   const [state, action, isPending] = useActionState(createCategory, undefined);
@@ -48,6 +52,9 @@ export default function CategoriesPage() {
     });
   }, []);
 
+  useEffect(() => {
+    fetchCategories();
+  }, [page, pageSize]);
 
   const fetchCategories = async () => {
     const response = await instance.get("/categories");
@@ -74,24 +81,29 @@ export default function CategoriesPage() {
               <DialogDescription>
                 <form action={action} className="space-y-4">
                   <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <label htmlFor="name">
-                      <p>Name</p>
-                    </label>
-                    <Input label="Name" type="text" name="name" />
+                    <Label htmlFor="name">Name</Label>
+                    <Input
+                      type="text"
+                      id="name"
+                      name="name"
+                      className="w-full"
+                    />
                     <p className="text-red-500">
                       {state?.errors?.name && <p>{state.errors.name}</p>}
                     </p>
                   </div>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
-                    <label htmlFor="description">
-                      <h2>Description</h2>
-                    </label>
-                    <Input label="Description" type="text" name="description" />
-                    <p className="text-red-500">
-                      {state?.errors?.description && (
-                        <p>{state.errors.description}</p>
-                      )}
-                    </p>
+                    <Label htmlFor="description">Description</Label>
+                    <Textarea
+                      placeholder="Enter a description for the category"
+                      type="text"
+                      id="description"
+                      name="description"
+                      className="w-full"
+                    />
+                    {state?.errors?.description && (
+                      <p>{state.errors.description}</p>
+                    )}
                   </div>
                   <p>
                     {state?.message && (
@@ -102,9 +114,12 @@ export default function CategoriesPage() {
                       </Alert>
                     )}
                   </p>
-                  <Button disabled={isPending}>
-                    {isPending ? "Creating..." : "Create"}
-                  </Button>
+
+                  {/* <DialogClose> */}
+                    <Button disabled={isPending}>
+                      {isPending ? "Creating..." : "Create"}
+                    </Button>
+                  {/* </DialogClose> */}
                 </form>
               </DialogDescription>
             </DialogHeader>

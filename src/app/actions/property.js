@@ -1,3 +1,4 @@
+"use server"
 import { PropertyFormSchema } from "../lib/definitions";
 import { instance } from "@/api";
 import { redirect } from "next/navigation";
