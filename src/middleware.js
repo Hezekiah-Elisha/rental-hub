@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-const protectedRoutes = ["/dashboard", "/profile"];
+const protectedRoutes = ["/dashboard/:path*", "/profile"];
 
 const productionUrl = process.env.PRODUCTION_URL || "http://localhost:3000";
 
