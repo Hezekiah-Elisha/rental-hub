@@ -51,7 +51,7 @@ export async function signin(state, formData) {
     };
   }
   const { email, password } = validatedFields.data;
-  
+
   try {
     const response = await instance.post("/auth/login", {
       email,
@@ -72,6 +72,21 @@ export async function signin(state, formData) {
       },
     };
   }
+}
+
+export async function googleAuthenticate(displayName, email, photoURL) {
+  // const response = await instance.post("/auth/google", {
+  //   username,
+  //   email,
+  //   password,
+  // });
+  // return response.data;
+  return {
+    success: true,
+    message: "Google authentication successful",
+    displayName,
+    email,
+  };
 }
 
 export async function logout() {

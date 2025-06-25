@@ -25,7 +25,7 @@ export default function Hero() {
     getCategories();
   }, []);
   return (
-    <div className="flex flex-col gap-4 justify-center items-center bg-[url('/cate.jpg')] bg-cover bg-center text-white text-center py-24 w-full h-full">
+    <div className="flex flex-col gap-4 justify-center items-center bg-[url('/cate.jpg')] bg-cover bg-center text-center py-24 w-full h-full">
       <h1 className="text-4xl font-bold">Find Your Dream Home</h1>
       <form
         action=""

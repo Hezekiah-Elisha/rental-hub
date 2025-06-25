@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { toast } from "sonner";
+import { Separator } from "@/components/ui/separator";
+import GoogleAuth from "@/components/GoogleAuth";
 
 export default function Signin() {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,14 +38,15 @@ export default function Signin() {
             height={870}
             width={870}
             alt=""
-            src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            src="/family.png"
             className="absolute inset-0 h-full w-full object-cover"
           />
+          <div className="absolute inset-0 bg-primary/40" />
         </aside>
 
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
-            <a className="block text-primary" href="#">
+            <Link className="block text-primary" href="/">
               <span className="sr-only">Home</span>
               <svg
                 className="h-8 sm:h-10"
@@ -56,87 +59,96 @@ export default function Signin() {
                   fill="currentColor"
                 />
               </svg>
-            </a>
+            </Link>
+            <div className="flex flex-col gap-4">
+              <h1 className="mt-6 text-2xl font-bold sm:text-3xl md:text-4xl">
+                The Rental Hub Ke
+              </h1>
 
-            <h1 className="mt-6 text-2xl font-bold sm:text-3xl md:text-4xl">
-              The Rental Hub Ke
-            </h1>
-
-            <p className="mt-4 leading-relaxed">
-              We are happy to see you here. Please sign in to continue.
-            </p>
-
-            <form action={action} className="mt-8 grid grid-cols-6 gap-6">
-              <div className="col-span-6">
-                <label for="Email" className="block text-sm font-medium ">
-                  Email
-                </label>
-
-                <Input type="email" id="Email" name="email" className="" />
-                <p className="text-red-300">
-                  {state?.errors?.email && <p>{state.errors.email}</p>}
-                </p>
-              </div>
-              <div className="col-span-6">
-                <label for="Email" className="block text-sm font-medium ">
-                  Password
-                </label>
-                <Input
-                  type="password"
-                  id="Password"
-                  name="password"
-                  className=""
-                />
-                <p className="text-red-300">
-                  {state?.errors?.password && (
-                    <div>
-                      <p>Password must:</p>
-                      <ul>
-                        {state.errors.password.map((error) => (
-                          <li key={error}>- {error}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-                </p>
-              </div>
-
-              <p className="col-span-6 flex items-center justify-between">
-                {state?.errors?.root && <p>{state.errors.root}</p>}
-                <a href="#" className="">
-                  Forgot your password?
-                </a>
+              <p className="mt-4 leading-relaxed">
+                We are happy to see you here. Please sign in to continue.
               </p>
-
-              <div className="col-span-6">
-                <p className="text-sm">
-                  By creating an account, you agree to our{" "}
-                  <a href="#" className="underline">
-                    {" "}
-                    terms and conditions{" "}
-                  </a>
-                  and {" "}
-                  <a href="#" className="underline">
-                    privacy policy
-                  </a>
-                  .
+              <GoogleAuth />
+              <div className="flex flex-row items-center justify-center w-full gap-2 ">
+                {/* <Separator className="w-[10px]" orientation="horizontal" /> */}
+                <p className="text-center text-sm text-muted-foreground uppercase">
+                  Or
                 </p>
+                {/* <Separator className="w-[10px]" orientation="horizontal" /> */}
               </div>
 
-              <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
-                <Button className="" disabled={isPending}>
-                  {isPending ? "Loading..." : "Sign in"}
-                </Button>
+              <form action={action} className="mt-8 grid grid-cols-6 gap-6">
+                <div className="col-span-6">
+                  <label htmlFor="Email" className="block text-sm font-medium ">
+                    Email
+                  </label>
 
-                <p className="mt-4 text-sm sm:mt-0">
-                  Already have an account?{" "}
-                  <Link href="/signup" className="underline">
-                    Signup
-                  </Link>
-                  .
+                  <Input type="email" id="Email" name="email" className="" />
+                  <p className="text-red-300">
+                    {state?.errors?.email && <p>{state.errors.email}</p>}
+                  </p>
+                </div>
+                <div className="col-span-6">
+                  <label for="Email" className="block text-sm font-medium ">
+                    Password
+                  </label>
+                  <Input
+                    type="password"
+                    id="Password"
+                    name="password"
+                    className=""
+                  />
+                  <p className="text-red-300">
+                    {state?.errors?.password && (
+                      <div>
+                        <p>Password must:</p>
+                        <ul>
+                          {state.errors.password.map((error) => (
+                            <li key={error}>- {error}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
+                  </p>
+                </div>
+
+                <p className="col-span-6 flex items-center justify-between">
+                  {state?.errors?.root && <p>{state.errors.root}</p>}
+                  <a href="#" className="">
+                    Forgot your password?
+                  </a>
                 </p>
-              </div>
-            </form>
+
+                <div className="col-span-6">
+                  <p className="text-sm">
+                    By creating an account, you agree to our{" "}
+                    <a href="#" className="underline">
+                      {" "}
+                      terms and conditions{" "}
+                    </a>
+                    and{" "}
+                    <a href="#" className="underline">
+                      privacy policy
+                    </a>
+                    .
+                  </p>
+                </div>
+
+                <div className="col-span-6 sm:flex sm:items-center sm:gap-4">
+                  <Button className="" disabled={isPending}>
+                    {isPending ? "Loading..." : "Sign in"}
+                  </Button>
+
+                  <p className="mt-4 text-sm sm:mt-0">
+                    Already have an account?{" "}
+                    <Link href="/signup" className="underline">
+                      Signup
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </form>
+            </div>
           </div>
         </main>
       </div>
