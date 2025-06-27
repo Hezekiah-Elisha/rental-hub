@@ -86,6 +86,7 @@ export async function googleAuthenticate(displayName, email, photoURL) {
     message: "Google authentication successful",
     displayName,
     email,
+    photoURL,
   };
 }
 

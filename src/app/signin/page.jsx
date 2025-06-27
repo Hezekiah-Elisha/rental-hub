@@ -89,7 +89,7 @@ export default function Signin() {
                   </p>
                 </div>
                 <div className="col-span-6">
-                  <label for="Email" className="block text-sm font-medium ">
+                  <label htmlFor="Email" className="block text-sm font-medium ">
                     Password
                   </label>
                   <Input
