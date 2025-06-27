@@ -13,7 +13,11 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { createCategory } from "@/app/actions/category";
+import {
+  createCategory,
+  deleteCategory,
+  getCategories,
+} from "@/app/actions/category";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Terminal } from "lucide-react";
 import {
@@ -44,8 +48,22 @@ export default function CategoriesPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [totalPages, setTotalPages] = useState(0);
-  const [loading, setLoading] = useState(true); // <-- Add loading state
+  const [loading, setLoading] = useState(true);
 
+  const handleDelete = async (categoryId) => {
+    try {
+      setLoading(true); // Start loading
+      deleteCategory(categoryId);
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      toast.error("Failed to delete category. Please try again.");
+    } finally {
+      setLoading(false); // Stop loading
+      fetchCategories(); // Refetch categories after deletion
+    }
+  };
+
+  // useEffect(() => {
   if (state?.success === true) {
     fetchCategories(); // Refetch categories after successful creation
     action(undefined); // Reset the action state after successful creation
@@ -54,37 +72,21 @@ export default function CategoriesPage() {
     console.error("Errors:", state.errors);
     toast.error("Failed to create category. Please check the errors.");
   }
+  // }, [state, action]);
 
   const [categories, setCategories] = useState([]);
-  // const fetchCategories = async () => {
-  //   try {
-  //     const response = await instance.get("/categories", {
-  //       params: {
-  //         page: page,
-  //         pageSize: pageSize,
-  //       },
-  //     });
-
-  //     setCategories(response.data);
-  //     setTotalPages(Math.ceil(response.data.length / pageSize));
-  //   } catch (error) {
-  //     console.error("Error fetching categories:", error);
-  //   }
-  // };
 
   const fetchCategories = async () => {
     setLoading(true); // Start loading
 
     try {
-      const response = await instance.get("/categories", {
-        params: {
-          page: page,
-          pageSize: pageSize,
-        },
-      });
-      setCategories(response.data);
-      setTotalPages(Math.ceil(response.data.length / pageSize));
-      console.log(response.data);
+      getCategories()
+        .then((response) => {
+          setCategories(response);
+        })
+        .catch((error) => {
+          console.error("Error fetching categories:", error);
+        });
     } catch (error) {
       console.error("Error fetching categories:", error);
     } finally {
@@ -115,7 +117,7 @@ export default function CategoriesPage() {
         link="/dashboard/categories/create-category"
         linkText="Create Category"
       /> */}
-      <div className="flex flex-row justify-between align-middle items-center">
+      <div className="flex flex-row justify-between align-middle items-center w-full">
         <h1 className="text-2xl font-bold">Categories</h1>
         {/* Create Category Dialog */}
         <Dialog>
@@ -137,7 +139,7 @@ export default function CategoriesPage() {
                       name="name"
                       className="w-full"
                     />
-                    <div className="text-red-500">
+                    <div className="">
                       {state?.errors?.name && <p>{state.errors.name}</p>}
                     </div>
                   </div>
@@ -179,7 +181,7 @@ export default function CategoriesPage() {
         {categories.length === 0 ? (
           <div>No categories available.</div>
         ) : (
-          <Table>
+          <Table className="w-full">
             <TableCaption>A list of your Categories</TableCaption>
             <TableHeader>
               <TableRow>
@@ -192,13 +194,28 @@ export default function CategoriesPage() {
               {categories.map((category) => (
                 <TableRow key={category.id}>
                   <TableCell className="font-medium">{category.name}</TableCell>
-                  <TableCell>{category.description}</TableCell>
+                  <TableCell>
+                    {category.description?.slice(0, 100)}...
+                  </TableCell>
                   <TableCell className="text-right space-x-1">
                     <Button>Edit</Button>
-                    <Button>Delete</Button>
+                    <Button
+                      variant="destructive"
+                      onClick={() => handleDelete(category.id)}
+                      disabled={loading}
+                    >
+                      Delete
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
+              {loading && (
+                <TableRow>
+                  <TableCell colSpan={3} className="text-center">
+                    Loading categories...
+                  </TableCell>
+                </TableRow>
+              )}
             </TableBody>
             <TableFooter>
               <TableRow>
