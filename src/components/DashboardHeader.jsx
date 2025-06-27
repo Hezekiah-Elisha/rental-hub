@@ -25,7 +25,7 @@ export default function DashboardHeader() {
     <>
       <div className="flex flex-row justify-between p-2 w-full">
         <div className="text-2xl font-bold text-primary">
-          Rental Hub <span className="text-secondary">Dashboard</span>
+          Rental Hub <span className="text-secondary-foreground">Dashboard</span>
         </div>
         <div className="flex flex-row align-middle justify-center items-center gap-4">
 

@@ -4,6 +4,7 @@ import Breadcrumbs from "@/components/Breadcumbs";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/app-sidebar";
 import DashboardHeader from "@/components/DashboardHeader";
+import { Separator } from "@/components/ui/separator";
 
 export default function layout({ children }) {
   return (

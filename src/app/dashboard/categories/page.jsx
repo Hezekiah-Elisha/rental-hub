@@ -72,8 +72,8 @@ export default function CategoriesPage() {
         <h1 className="text-2xl font-bold">Categories</h1>
         {/* Create Category Dialog */}
         <Dialog>
-          <DialogTrigger className="hover:cursor-pointer hover:bg-accent p-4 rounded-xl">
-            Create Category
+          <DialogTrigger className="hover:cursor-pointer">
+            <Button>Create Category</Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -116,9 +116,9 @@ export default function CategoriesPage() {
                   </p>
 
                   {/* <DialogClose> */}
-                    <Button disabled={isPending}>
-                      {isPending ? "Creating..." : "Create"}
-                    </Button>
+                  <Button disabled={isPending}>
+                    {isPending ? "Creating..." : "Create"}
+                  </Button>
                   {/* </DialogClose> */}
                 </form>
               </DialogDescription>

@@ -15,7 +15,7 @@ import {
   CalendarIcon,
   SearchIcon,
   SettingsIcon,
-  GaugeIcon
+  GaugeIcon,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -74,7 +74,7 @@ export function AppSidebar() {
         <SidebarGroup />
       </SidebarContent>
       <SidebarFooter>
-        <p>© 2025 Hub Ke</p>
+        <p>&copy; 2025 Rental Hub Ke</p>
       </SidebarFooter>
     </Sidebar>
   );
