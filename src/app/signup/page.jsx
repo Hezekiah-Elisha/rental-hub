@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import GoogleAuth from "@/components/GoogleAuth";
 
 export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
@@ -108,9 +109,11 @@ export default function Signup() {
             height={870}
             width={870}
             alt=""
-            src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            // src="https://images.unsplash.com/photo-1605106702734-205df224ecce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            src="/family.png"
             className="absolute inset-0 h-full w-full object-cover"
           />
+          <div className="absolute inset-0 bg-primary/40" />
         </aside>
 
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
@@ -137,6 +140,10 @@ export default function Signup() {
             <p className="mt-4 leading-relaxed text-primary">
               Sign up to access your account and manage your listings.
             </p>
+            <GoogleAuth />
+            <div className="flex flex-row items-center justify-center w-full gap-2 p-2">
+              <p>OR</p>
+            </div>
 
             <form action={action} className="mt-8 grid grid-cols-6 gap-6">
               <div className="col-span-6 sm:col-span-3">

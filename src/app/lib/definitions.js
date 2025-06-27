@@ -28,6 +28,15 @@ export const SigninFormSchema = z.object({
   password: z.string().min(1, { message: "Password is required" }).trim(),
 });
 
+export const GoogleAuthFormSchema = z.object({
+  username: z.string().min(1, { message: "Name is required" }).trim(),
+  email: z.string().email({ message: "Invalid email address" }).trim(),
+  photoURL: z
+    .string()
+    .url({ message: "Invalid photo URL" })
+    .optional({ message: "Photo URL is optional" }),
+});
+
 export const PropertyFormSchema = z.object({
   title: z.string().min(1, { message: "Title is required" }).trim(),
   description: z.string().min(1, { message: "Description is required" }).trim(),

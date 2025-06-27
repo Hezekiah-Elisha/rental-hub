@@ -8,6 +8,7 @@ export default function RecentListings() {
   const [listings, setListings] = useState([]);
   const [loading, setLoading] = useState(true);
 
+
   useEffect(() => {
     // Fetch recent listings from the server
     // Update the state with the fetched data
@@ -19,6 +20,7 @@ export default function RecentListings() {
       })
       .catch((error) => {
         console.error(error);
+        setLoading(false);
       });
   }, []);
   return (

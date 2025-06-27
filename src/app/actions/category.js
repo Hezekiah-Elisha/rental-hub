@@ -1,6 +1,6 @@
+"use server";
 import { CategoryFormSchema } from "../lib/definitions";
 import { instance } from "@/api";
-import { redirect } from "next/navigation";
 import { getCookie } from "../lib/session";
 
 export async function createCategory(state, formData) {
@@ -56,12 +56,4 @@ export async function createCategory(state, formData) {
       };
       // console.log(error.Authorization);
     });
-
-  // if (response.status !== 201) {
-  //   return {
-  //     errors: {
-  //       name: "Category name already exists",
-  //     },
-  //   };
-  // }
 }

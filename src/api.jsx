@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const instance = axios.create({
-  baseURL: "https://api.rental.hub.ke",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   // withCredentials: true,
   // timeout: 4000,
   headers: { "content-type": "application/json" },
