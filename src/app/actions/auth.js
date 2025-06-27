@@ -60,6 +60,7 @@ export async function signin(state, formData) {
     await createCookie("access_token", response.data.access_token);
     await createCookie("refresh_token", response.data.refresh_token);
     await createCookie("user", JSON.stringify(response.data.user));
+    await createCookie("photoURL", response.data.user.photoURL || "");
     return {
       success: true,
       status: response.status,
@@ -95,6 +96,7 @@ export async function googleAuthenticate(displayName, email, photoURL) {
     await createCookie("access_token", response.data.access_token);
     await createCookie("refresh_token", response.data.refresh_token);
     await createCookie("user", JSON.stringify(response.data.user));
+    await createCookie("photoURL", response.data.user.photoURL || "");
     return {
       success: true,
       message: "Google authentication successful",

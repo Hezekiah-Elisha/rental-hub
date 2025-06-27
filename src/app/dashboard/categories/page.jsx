@@ -45,11 +45,32 @@ export default function CategoriesPage() {
   const [totalPages, setTotalPages] = useState(0);
 
   const [categories, setCategories] = useState([]);
+  // const fetchCategories = async () => {
+  //   try {
+  //     const response = await instance.get("/categories", {
+  //       params: {
+  //         page: page,
+  //         pageSize: pageSize,
+  //       },
+  //     });
+
+  //     setCategories(response.data);
+  //     setTotalPages(Math.ceil(response.data.length / pageSize));
+  //   } catch (error) {
+  //     console.error("Error fetching categories:", error);
+  //   }
+  // };
   useEffect(() => {
-    instance.get("/categories").then((response) => {
-      setCategories(response.data);
-      console.log(response.data);
-    });
+    instance
+      .get("/categories")
+      .then((response) => {
+        setCategories(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -57,8 +78,11 @@ export default function CategoriesPage() {
   }, [page, pageSize]);
 
   const fetchCategories = async () => {
-    const response = await instance.get("/categories");
-    setCategories(response.data);
+    const response = await instance.get("/categories").then((response) => {
+      setCategories(response.data);
+      setTotalPages(Math.ceil(response.data.length / pageSize));
+    });
+    console.log(response.data);
   };
 
   return (
