@@ -121,10 +121,11 @@ export default function CategoriesPage() {
         <h1 className="text-2xl font-bold">Categories</h1>
         {/* Create Category Dialog */}
         <Dialog>
-          <DialogTrigger className="hover:cursor-pointer">
-            <Button className="" disabled={loading}>
-              {loading ? "Loading..." : "Create Category"}
-            </Button>
+          <DialogTrigger
+            className="hover:cursor-pointer bg-primary text-primary-foreground px-4 py-2 rounded"
+            disabled={loading}
+          >
+            {loading ? "Loading..." : "Create Category"}
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
@@ -139,9 +140,12 @@ export default function CategoriesPage() {
                       name="name"
                       className="w-full"
                     />
-                    <div className="">
+                    {/* <span className="">
                       {state?.errors?.name && <p>{state.errors.name}</p>}
-                    </div>
+                    </span> */}
+                    {state?.errors.name && (
+                      <p className="text-red-500">{state.errors.name}</p>
+                    )}
                   </div>
                   <div className="grid w-full max-w-sm items-center gap-1.5">
                     <Label htmlFor="description">Description</Label>

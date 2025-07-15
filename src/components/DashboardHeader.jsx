@@ -50,46 +50,50 @@ export default function DashboardHeader() {
   }, []);
 
   return (
-    <>
-      <div className="flex flex-row justify-between p-2 w-full">
-        <div className="text-2xl font-bold text-primary">
-          Rental Hub Ke{" "}
-          <span className="text-secondary-foreground">Dashboard</span>
-        </div>
-        <div className="flex flex-row align-middle justify-center items-center gap-4">
-          <ModeToggle />
-          <Menubar className="w-full">
-            <MenubarMenu>
-              <MenubarTrigger>
-                <div className="w-full flex flex-row items-center gap-2">
-                  <div className="relative w-8 h-8">
-                    <Image
-                      src={photoUrl || "/default-avatar.png"}
-                      alt="User Avatar"
-                      fill
-                      className="rounded-full object-cover"
-                      sizes="32px"
-                    />
-                  </div>
-                  <span>Hi {user?.name}</span>
+    <div className="flex flex-col md:flex-row justify-between p-2 w-full">
+      <div className="text-2xl font-bold text-primary">
+        Rental Hub Ke{" "}
+        <span className="text-secondary-foreground">Dashboard</span>
+      </div>
+      <div className="flex flex-row align-middle justify-center items-center gap-4">
+        <ModeToggle />
+        <Menubar className="w-full">
+          <MenubarMenu>
+            <MenubarTrigger>
+              <div className="w-full flex flex-row items-center gap-2">
+                <div className="relative w-8 h-8">
+                  <Image
+                    src={photoUrl || "/default-avatar.png"}
+                    alt="User Avatar"
+                    fill
+                    className="rounded-full object-cover"
+                    sizes="32px"
+                  />
                 </div>
-              </MenubarTrigger>
-              <MenubarContent>
-                <MenubarItem>
-                  New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-                </MenubarItem>
-                <MenubarItem>New Window</MenubarItem>
-                <MenubarSeparator />
-                <MenubarItem>Share</MenubarItem>
-                <MenubarSeparator />
-                <MenubarItem onClick={handleLogout}>Logout</MenubarItem>
-              </MenubarContent>
-            </MenubarMenu>
+                <span>Hi {user?.name}</span>
+              </div>
+            </MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>
+                New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+              </MenubarItem>
+              <MenubarItem>New Window</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem>Share</MenubarItem>
+              <MenubarSeparator />
+              <MenubarItem onClick={handleLogout}>Logout</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
 
-            <MenubarMenu>
-              <span onClick={handleLogout} className="text-sm hover:cursor-pointer hover:bg-red-500 p-2 rounded">Logout</span>
+          <MenubarMenu>
+            <span
+              onClick={handleLogout}
+              className="text-sm hover:cursor-pointer hover:bg-red-500 p-2 rounded"
+            >
+              Logout
+            </span>
 
-              {/* <MenubarTrigger>Edit</MenubarTrigger>
+            {/* <MenubarTrigger>Edit</MenubarTrigger>
               <MenubarContent>
                 <MenubarItem>
                   Undo <MenubarShortcut>⌘Z</MenubarShortcut>
@@ -102,10 +106,9 @@ export default function DashboardHeader() {
                 <MenubarItem>Copy</MenubarItem>
                 <MenubarItem>Paste</MenubarItem>
               </MenubarContent> */}
-            </MenubarMenu>
-          </Menubar>
-        </div>
+          </MenubarMenu>
+        </Menubar>
       </div>
-    </>
+    </div>
   );
 }
