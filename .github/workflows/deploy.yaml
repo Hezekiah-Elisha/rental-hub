@@ -1,0 +1,85 @@
+name: Deploy accomodica frontend to production
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
+
+            - name: Connect to VPS and reset repo
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      cd /root/accomodica/rental-hub
+                      git reset --hard HEAD
+
+            - name: Clean untracked files
+              uses: appleboy/ssh-action@master
+              if: success()
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      cd /root/accomodica/rental-hub
+                      git clean -f -d
+
+            - name: Pull latest code
+              uses: appleboy/ssh-action@master
+              if: success()
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      cd /root/accomodica/rental-hub
+                      git pull
+
+            - name: Start docker compose
+              uses: appleboy/ssh-action@master
+              if: success()
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      cd /root/accomodica/rental-hub
+                      docker compose build --no-cache
+                      docker compose up -d
+            - name: Check Docker container status
+              uses: appleboy/ssh-action@master
+              if: success()
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      cd /root/accomodica/rental-hub
+                      docker compose ps
+                      docker compose ps | grep 'Exit' && exit 1 || echo "All containers running"
+
+            - name: Confirm deployment
+              uses: appleboy/ssh-action@master
+              if: success()
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USER }}
+                  key: ${{ secrets.SERVER_KEY }}
+                  passphrase: ${{ secrets.SERVER_PASSPHRASE }}
+                  script: |
+                      echo "Deployment successful on $(date)"
