@@ -4,7 +4,7 @@ const protectedRoutes = ["/dashboard/:path*", "/profile"];
 
 const productionUrl = process.env.PRODUCTION_URL || "http://localhost:3000";
 
-export async function middleware(req) {
+export async function proxy(req) {
   const isProtectedRoute = protectedRoutes.some((route) =>
     req.nextUrl.pathname.startsWith(route)
   );
